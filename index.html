@@ -189,7 +189,7 @@
                         
                         <div class="flex flex-col gap-2.5 max-w-md mx-auto lg:mx-0">
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div id="statusBox" class="flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md">
+                                <div id="statusBox" class="flex items-center justify-center sm:justify-start gap-3 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md">
                                     <span id="statusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
                                     <span id="statusText">CALCOLO...</span>
                                 </div>
@@ -810,7 +810,7 @@ function checkOpenStatus() {
 
             if (isOverrideClosed) {
                 if (statusTextEl) statusTextEl.textContent = overrideMsg;
-                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-3 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
                 if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-red-500 shrink-0";
                 if (closingInfoTextEl) closingInfoTextEl.textContent = "Locale Chiuso";
                 return;
@@ -859,11 +859,11 @@ function checkOpenStatus() {
 
             if (isOpen) {
                 if (statusTextEl) statusTextEl.textContent = "APERTO";
-                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-3 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
                 if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0";
             } else {
                 if (statusTextEl) statusTextEl.textContent = "CHIUSO";
-                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-3 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
                 if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-red-500 shrink-0";
             }
         }
