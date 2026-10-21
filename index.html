@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="El Barrio Caffè Olbia - Caffetteria, Cocktail Bar & Aperitivi in Viale Aldo Moro 128, Olbia. Mix Italo-Spagnolo, ottimi cocktail, birre e musica dal vivo.">
+    <meta name="theme-color" content="#080a0f">
+    <title>El Barrio Caffè Olbia | Mix Italo-Spagnolo & Cocktail Bar</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#080a0f',
+                        petrolDark: '#0d1815',
+                        petrol: '#13231e',
+                        champagne: '#d4af37',
+                        champagneLight: '#f3e5ab',
+                        bronze: '#b8860b',
+                        amberGlow: '#d97706',
+                        warmIvory: '#f8f6f0',
+                        glassBg: 'rgba(13, 24, 21, 0.65)'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Outfit', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 0 35px rgba(212, 175, 55, 0.25)',
+                        'glow-petrol': '0 0 35px rgba(19, 35, 30, 0.5)',
+                        'card-depth': '0 25px 50px -12px rgba(0, 0, 0, 0.85)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #080a0f;
+            color: #f8f6f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-panel {
+            background: rgba(13, 24, 21, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .glass-pill {
+            background: rgba(248, 246, 240, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #b8860b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(8, 10, 15, 0.4);
+            border-radius: 9999px;
+            margin: 12px 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.8);
+        }
+
+        .nav-tab-btn i {
+            color: #d4af37 !important;
+            transition: color 0.2s ease;
+        }
+        .nav-tab-btn.active-tab i {
+            color: #000000 !important;
+        }
+
+        @keyframes ambientGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.08); }
+        }
+        .animate-ambient {
+            animation: ambientGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-champagne selection:text-black">
+
+    <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-champagne/20 px-4 sm:px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full border border-champagne/40 bg-petrolDark flex items-center justify-center font-serif text-champagne font-bold text-xl shadow-glow-gold">
+                B
+            </div>
+            <div>
+                <h1 class="font-serif font-bold text-lg tracking-wide text-warmIvory">
+                    EL BARRIO CAFFÈ
+                </h1>
+                <p class="text-[10px] text-champagne/70 uppercase tracking-widest font-semibold">Olbia • Viale Aldo Moro 128</p>
+            </div>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-1 glass-pill p-1.5 rounded-full">
+            <button onclick="switchTab('home')" id="btnTabHome" class="nav-tab-btn active-tab px-5 py-2 rounded-full text-xs font-semibold transition-all bg-champagne text-black font-bold shadow-glow-gold">
+                <i class="fa-solid fa-compass mr-1.5"></i> Atmosphere
+            </button>
+            <button onclick="switchTab('menu')" id="btnTabMenu" class="nav-tab-btn px-5 py-2 rounded-full text-xs font-semibold transition-all text-warmIvory/80 hover:text-champagne hover:bg-white/5">
+                <i class="fa-solid fa-martini-glass-citrus mr-1.5"></i> Carta & Menu
+            </button>
+            <button onclick="switchTab('events')" id="btnTabEvents" class="nav-tab-btn px-5 py-2 rounded-full text-xs font-semibold transition-all text-warmIvory/80 hover:text-champagne hover:bg-white/5">
+                <i class="fa-solid fa-music mr-1.5"></i> Eventi & Live Stage
+            </button>
+            <button onclick="switchTab('propose')" id="btnTabPropose" class="nav-tab-btn px-5 py-2 rounded-full text-xs font-semibold transition-all text-warmIvory/80 hover:text-champagne hover:bg-white/5">
+                <i class="fa-solid fa-star mr-1.5"></i> Proponi Serata
+            </button>
+        </nav>
+
+        <div class="flex items-center gap-3">
+            <button onclick="openTableModal()" class="px-4 py-2 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs shadow-glow-gold hover:brightness-110 transition-all flex items-center gap-2">
+                <i class="fa-regular fa-calendar-check text-sm"></i>
+                <span class="hidden sm:inline">Prenota Tavolo</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Bar -->
+    <div class="md:hidden glass-panel border-b border-champagne/20 px-3 py-2.5 flex items-center justify-around text-xs font-semibold">
+        <button onclick="switchTab('home')" id="mbBtnHome" class="mobile-tab-btn text-champagne flex flex-col items-center gap-1 font-bold">
+            <i class="fa-solid fa-compass text-base text-champagne"></i> Atmosphere
+        </button>
+        <button onclick="switchTab('menu')" id="mbBtnMenu" class="mobile-tab-btn text-warmIvory/60 flex flex-col items-center gap-1">
+            <i class="fa-solid fa-martini-glass-citrus text-base text-champagne"></i> Menu
+        </button>
+        <button onclick="switchTab('events')" id="mbBtnEvents" class="mobile-tab-btn text-warmIvory/60 flex flex-col items-center gap-1">
+            <i class="fa-solid fa-music text-base text-champagne"></i> Eventi
+        </button>
+        <button onclick="switchTab('propose')" id="mbBtnPropose" class="mobile-tab-btn text-warmIvory/60 flex flex-col items-center gap-1">
+            <i class="fa-solid fa-star text-base text-champagne"></i> Proponi
+        </button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 flex-1 px-4 sm:px-8 py-8 max-w-7xl mx-auto w-full">
+
+        <!-- VIEW 1: HOME / ATMOSPHERE -->
+        <section id="viewHome" class="space-y-12">
+            <div class="glass-panel rounded-3xl p-6 sm:p-12 border border-champagne/20 relative overflow-hidden shadow-card-depth">
+                <div class="absolute -top-32 -left-32 w-96 h-96 bg-petrol rounded-full blur-3xl animate-ambient pointer-events-none"></div>
+                <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-amberGlow/10 rounded-full blur-3xl animate-ambient pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        
+                        <div class="flex flex-col gap-2.5 max-w-md mx-auto lg:mx-0">
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div id="statusBox" class="flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md">
+                                    <span id="statusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+                                    <span id="statusText">CALCOLO...</span>
+                                </div>
+
+                                <div class="flex items-center justify-center sm:justify-start gap-1.5 px-3.5 py-2 rounded-xl bg-champagne/10 border border-champagne/30 text-champagne text-[11px] sm:text-xs font-semibold shadow-sm truncate">
+                                    <i class="fa-regular fa-clock text-champagne shrink-0"></i>
+                                    <span id="closingInfoText" class="truncate">Chiude alle 22:30</span>
+                                </div>
+                            </div>
+
+                            <div class="w-full flex items-center justify-center sm:justify-start gap-2 px-4 py-2 rounded-xl bg-amberGlow/15 border border-amberGlow/30 text-amber-300 text-xs font-semibold shadow-sm">
+                                <i class="fa-solid fa-moon text-amber-400 shrink-0"></i>
+                                <span>Venerdì e Sabato aperto fino alle 02:00</span>
+                            </div>
+                        </div>
+
+                        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-warmIvory leading-tight">
+                            Mix Italo-Spagnolo & Cocktail Bar in Viale Aldo Moro a <span class="text-gradient-gold italic">Olbia</span>.
+                        </h2>
+
+                        <p class="text-sm sm:text-base text-warmIvory/70 font-light leading-relaxed max-w-2xl">
+                            El Barrio Caffè è il punto di riferimento in Viale Aldo Moro dove assaporare caffè di qualità superiore, ottime birre, cocktail ricercati e gustosi aperitivi in un'atmosfera accogliente.
+                        </p>
+
+                        <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                            <button onclick="switchTab('menu')" class="px-6 py-3 rounded-full bg-champagne text-black font-bold text-xs tracking-wider uppercase shadow-glow-gold hover:bg-champagneLight transition-all">
+                                SFOGLIA CARTA & MENU
+                            </button>
+                            <button onclick="openTableModal()" class="px-6 py-3 rounded-full glass-pill text-warmIvory font-semibold text-xs tracking-wider uppercase hover:border-champagne/60 transition-all">
+                                RISERVA UN TAVOLO
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- COLONNA DESTRA: PROSSIMO EVENTO LIVE + PRODOTTO HERO -->
+                    <div class="lg:col-span-5 space-y-4 relative">
+                        
+                        <!-- CARD EVENTO DINAMICA -->
+                        <div id="homeNextEventCard" class="glass-panel p-5 rounded-2xl border border-champagne/40 shadow-xl relative overflow-hidden animate-pulse-glow group transition-all duration-500 hover:scale-[1.02]">
+                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-champagne/10 rounded-full blur-2xl group-hover:bg-champagne/25 transition-all"></div>
+                            
+                            <div class="flex items-center justify-between pb-3 border-b border-champagne/20 relative z-10">
+                                <div class="flex items-center gap-2">
+                                    <span class="relative flex h-3 w-3">
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                    </span>
+                                    <span class="text-[11px] font-extrabold tracking-widest text-champagne uppercase">Prossimo Evento</span>
+                                </div>
+                                <span id="homeEventDateBadge" class="px-2.5 py-0.5 rounded-full bg-champagne/20 text-champagne font-bold text-[10px] border border-champagne/30">Caricamento...</span>
+                            </div>
+
+                            <div class="py-3.5 space-y-1.5 relative z-10">
+                                <h4 id="homeEventTitle" class="font-serif font-bold text-warmIvory text-base tracking-wide group-hover:text-champagne transition-colors">Caricamento evento...</h4>
+                                <p id="homeEventArtist" class="text-xs text-champagneLight font-semibold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-music text-[10px]"></i> <span id="homeEventArtistText">...</span>
+                                </p>
+                                <p id="homeEventTimeText" class="text-[11px] text-warmIvory/70 pt-1"></p>
+                            </div>
+
+                            <div class="pt-2 flex items-center justify-between gap-2 relative z-10">
+                                <button onclick="switchTab('events')" class="text-[11px] font-bold text-champagne hover:underline flex items-center gap-1">
+                                    Tutti gli eventi <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                                </button>
+                                <button onclick="quickReserveEventFromHome()" class="px-3.5 py-1.5 rounded-full bg-champagne text-black font-extrabold text-[10px] uppercase tracking-wider shadow-md hover:bg-champagneLight transition-all">
+                                    Prenota Serata
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- CARD PRODOTTO HERO -->
+                        <div class="relative rounded-2xl overflow-hidden border border-champagne/30 shadow-2xl group">
+                            <img id="heroImg" src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" alt="El Barrio Caffè Olbia" class="w-full h-48 sm:h-56 object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
+                            <div class="absolute bottom-3 left-3 right-3 p-3 rounded-xl glass-panel border border-champagne/20 flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] text-champagne uppercase font-bold tracking-widest">Consigliato dal Barman</p>
+                                    <p id="heroItemTitle" class="text-xs font-serif font-bold text-warmIvory">Caricamento...</p>
+                                </div>
+                                <span id="heroItemPrice" class="text-xs text-champagne font-bold shrink-0 px-2.5 py-1 rounded-full bg-black/80 border border-champagne/30"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE "I MUST DI EL BARRIO CAFFÈ" -->
+            <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-champagne/20 space-y-6 shadow-card-depth">
+                <div class="flex items-center justify-between border-b border-champagne/15 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-champagne uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire text-amberGlow"></i> I Più Ordinati & Specialità della Casa
+                        </span>
+                        <h3 class="text-2xl font-serif font-bold text-warmIvory mt-1">I Must di El Barrio Caffè</h3>
+                    </div>
+                    <button onclick="switchTab('menu')" class="text-xs font-bold text-champagne hover:underline flex items-center gap-1">Vedi tutto il menu →</button>
+                </div>
+                <div id="topHouseContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- SECTION RECENSIONI -->
+            <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-champagne/20 space-y-8 shadow-card-depth">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-champagne/15 pb-6">
+                    <div>
+                        <span class="text-xs font-bold text-champagne uppercase tracking-widest flex items-center gap-2">
+                            <i class="fa-brands fa-google text-amberGlow"></i> Google Reviews & Reputazione
+                        </span>
+                        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-warmIvory mt-1">Cosa dicono i nostri ospiti</h3>
+                    </div>
+                    <div class="flex items-center gap-3 glass-pill px-4 py-2 rounded-full border border-champagne/30">
+                        <div class="flex text-amber-400 text-sm gap-1">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <span class="text-sm font-bold text-warmIvory">4.6</span>
+                        <span class="text-xs text-warmIvory/50 font-light">(36 recensioni verificate)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 rounded-2xl bg-petrolDark/80 border border-champagne/15 space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex text-amber-400 text-xs gap-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                <span class="text-[10px] text-warmIvory/40">Recensione Google</span>
+                            </div>
+                            <p class="text-xs text-warmIvory/80 italic leading-relaxed">"Ottime birre e cocktail."</p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-champagne/20 text-champagne font-bold text-xs flex items-center justify-center">B</div>
+                            <div>
+                                <p class="text-xs font-bold text-warmIvory">Cliente Google</p>
+                                <p class="text-[10px] text-warmIvory/50">Verified Review</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-petrolDark/80 border border-champagne/15 space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex text-amber-400 text-xs gap-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                <span class="text-[10px] text-warmIvory/40">Recensione Google</span>
+                            </div>
+                            <p class="text-xs text-warmIvory/80 italic leading-relaxed">"Personale gentile preparato e sorridente."</p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-champagne/20 text-champagne font-bold text-xs flex items-center justify-center">M</div>
+                            <div>
+                                <p class="text-xs font-bold text-warmIvory">Marco P.</p>
+                                <p class="text-[10px] text-warmIvory/50">Verified Review</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-petrolDark/80 border border-champagne/15 space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex text-amber-400 text-xs gap-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                <span class="text-[10px] text-warmIvory/40">Recensione Google</span>
+                            </div>
+                            <p class="text-xs text-warmIvory/80 italic leading-relaxed">"Uno dei migliori locali sul viale Aldo Moro per gustare un caffè eccellente e un aperitivo serale in relax."</p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-champagne/20 text-champagne font-bold text-xs flex items-center justify-center">S</div>
+                            <div>
+                                <p class="text-xs font-bold text-warmIvory">Sara L.</p>
+                                <p class="text-[10px] text-warmIvory/50">Verified Review</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION DOVE SIAMO -->
+            <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-champagne/20 space-y-8 shadow-card-depth">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold text-champagne uppercase tracking-widest flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-amberGlow"></i> Come Raggiungerci
+                            </span>
+                            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-warmIvory mt-1">Dove Trovarci</h3>
+                            <p class="text-xs text-warmIvory/60 mt-2 leading-relaxed">Ci trovi in Viale Aldo Moro 128, uno dei viali più vivi e dinamici di Olbia.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-full bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne text-sm shrink-0">
+                                    <i class="fa-solid fa-map-pin"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Indirizzo</h4>
+                                    <p class="text-sm font-semibold text-warmIvory">Viale Aldo Moro, 128, 07026 Olbia (OT)</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-full bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne text-sm shrink-0">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Orari di Apertura</h4>
+                                    <p class="text-xs text-warmIvory/80">Lunedì — Domenica: <span class="text-champagne font-bold">07:00 — 22:30 (Ven-Sab fino alle 02:00)</span></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-full bg-champagne/10 border border-champagne/30 flex items-center justify-center text-champagne text-sm shrink-0">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-champagne uppercase tracking-wider">Telefono</h4>
+                                    <p class="text-xs text-warmIvory/80">+39 349 364 4167</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex flex-wrap gap-3">
+                            <a href="https://maps.google.com/?q=Viale+Aldo+Moro+128+Olbia" target="_blank" class="px-5 py-2.5 rounded-full bg-champagne text-black font-extrabold text-xs shadow-glow-gold hover:bg-champagneLight transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-diamond-turn-right"></i> Apri Mappe & Navigatore
+                            </a>
+                            <a href="tel:+393493644167" class="px-5 py-2.5 rounded-full glass-pill text-warmIvory font-semibold text-xs border border-champagne/30 hover:border-champagne transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-champagne"></i> Chiamaci
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 h-80 sm:h-96 rounded-2xl overflow-hidden border border-champagne/30 relative shadow-2xl">
+                        <iframe 
+                            class="w-full h-full grayscale opacity-85 hover:grayscale-0 transition-all duration-500" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.4851213328227!2d9.4938!3d40.9231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d93214b7bbbbbb%3A0x0!2sViale%20Aldo%20Moro%2C%20128%2C%2007026%20Olbia%20OT!5e0!3m2!1sit!2sit!4v1650000000000!5m2!1sit!2sit" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: DIGITAL MENU -->
+        <section id="viewMenu" class="space-y-8 hidden">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-champagne/20">
+                <div>
+                    <span class="text-xs font-bold text-champagne uppercase tracking-widest">Carta Digitale Cloud</span>
+                    <h2 class="text-3xl font-serif font-bold text-warmIvory">Menu El Barrio Caffè</h2>
+                    <p class="text-xs text-warmIvory/60 mt-1">Sfoglia la nostra selezione di caffetteria, cocktail e aperitivi in tempo reale.</p>
+                </div>
+
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-champagne text-xs"></i>
+                    <input type="text" id="menuSearchInput" oninput="filterMenuCards()" placeholder="Cerca caffè, cocktail, birra..." class="w-full pl-9 pr-4 py-2.5 rounded-full glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne transition-all">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 overflow-x-auto custom-scrollbar py-2">
+                <button onclick="selectCategory('all')" id="cat_all" class="px-4 py-2 rounded-full text-xs font-bold bg-champagne text-black whitespace-nowrap transition-all">Tutti</button>
+                <button onclick="selectCategory('cocktails')" id="cat_cocktails" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-cocktail text-champagne mr-1"></i> Cocktail</button>
+                <button onclick="selectCategory('aperitivi')" id="cat_aperitivi" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-wine-glass-sparkles text-amberGlow mr-1"></i> Aperitivi Speciali</button>
+                <button onclick="selectCategory('vini')" id="cat_vini" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-wine-bottle text-red-400 mr-1"></i> Vini & Bollicine</button>
+                <button onclick="selectCategory('alcolici')" id="cat_alcolici" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-whiskey-glass text-yellow-500 mr-1"></i> Alcolici & Distillati</button>
+                <button onclick="selectCategory('birre')" id="cat_birre" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-beer-mug-empty text-amber-400 mr-1"></i> Birre</button>
+                <button onclick="selectCategory('analcolici')" id="cat_analcolici" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-glass-water text-cyan-400 mr-1"></i> Bibite Analcoliche</button>
+                <button onclick="selectCategory('tisane')" id="cat_tisane" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-mug-hot text-emerald-400 mr-1"></i> Tisane & Infusi</button>
+                <button onclick="selectCategory('caffetteria')" id="cat_caffetteria" class="px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all"><i class="fa-solid fa-mug-saucer text-amber-600 mr-1"></i> Caffetteria</button>
+            </div>
+
+            <div id="menuContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- VIEW 3: EVENTS -->
+        <section id="viewEvents" class="space-y-8 hidden">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-champagne/20">
+                <div>
+                    <span class="text-xs font-bold text-amberGlow uppercase tracking-widest flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Live Stage & Nightlife Cloud
+                    </span>
+                    <h2 class="text-3xl font-serif font-bold text-warmIvory">Programmazione Musicale & Eventi</h2>
+                    <p class="text-xs text-warmIvory/60 mt-1">Scegli la tua serata a El Barrio Caffè Olbia.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="eventsContainer"></div>
+        </section>
+
+        <!-- VIEW 4: PROPONI EVENTO -->
+        <section id="viewPropose" class="space-y-8 max-w-2xl mx-auto hidden">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold text-champagne uppercase tracking-widest">Collaborazioni & Proposte</span>
+                <h2 class="text-3xl font-serif font-bold text-warmIvory">Organizza o Suona a El Barrio Caffè</h2>
+                <p class="text-xs text-warmIvory/60">Sei un musicista, DJ o desideri proporre una serata? Compila i dettagli del tuo progetto per inviare la proposta direttamente alla direzione.</p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-4 border border-champagne/20 shadow-2xl">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Nome / Nome Artista</label>
+                        <input type="text" id="propName" placeholder="es. Marco Rossi / Duo Acustico" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Recapito Telefonico / WhatsApp</label>
+                        <input type="text" id="propPhone" placeholder="es. +39 349 364 4167" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Titolo / Nome Proposta Artistica</label>
+                        <input type="text" id="propTitle" placeholder="es. Noche Acústica & Live" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Tipo di Evento</label>
+                        <select id="propType" class="mt-1 w-full px-4 py-2.5 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            <option value="Musica dal Vivo">Musica dal Vivo / Duo Acustico</option>
+                            <option value="DJ Set">DJ Set</option>
+                            <option value="Festa Privata">Festa Privata</option>
+                            <option value="Degustazione / Evento Culturale">Degustazione / Evento Culturale</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Data Indicativa</label>
+                        <input type="text" id="propDate" placeholder="es. Venerdì prossimo" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Orario Desiderato</label>
+                        <input type="text" id="propTime" placeholder="es. 20:30 — 23:30" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Genere / Stile Musicale</label>
+                        <input type="text" id="propStyle" placeholder="es. Smooth Jazz, Latin, Deep House" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Dress Code Proposto (Opzionale)</label>
+                        <input type="text" id="propDressCode" placeholder="es. Casual Chic / Vibe Iberica" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-champagne">Descrizione del Progetto / Esigenze Tecniche</label>
+                    <textarea id="propDesc" rows="4" placeholder="Raccontaci il format della serata, strumentazione richiesta o dettagli artistici..." class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne"></textarea>
+                </div>
+
+                <button onclick="submitProposalWhatsApp()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs tracking-wider uppercase shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Richiedi via WhatsApp
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PULSANTE FLUTTUANTE WHATSAPP (FISSO IN BASSO A SINISTRA) -->
+    <a href="https://wa.me/393493644167?text=Ciao%20El%20Barrio%20Caffè,%20vorrei%20ricevere%20informazioni." target="_blank" class="fixed bottom-6 left-6 z-40 w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300 hover:bg-emerald-400 group" title="Contattaci su WhatsApp">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- PULSANTE TORNA AL TOP (FISSO IN BASSO A DESTRA) -->
+    <button id="scrollToTopBtn" onclick="scrollToTop()" class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full glass-panel border border-champagne/40 bg-petrolDark/90 text-champagne flex items-center justify-center shadow-glow-gold opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:scale-110 hover:bg-champagne hover:text-black">
+        <i class="fa-solid fa-arrow-up text-sm"></i>
+    </button>
+
+    <!-- MODAL 1: TABLE RESERVATION -->
+    <div id="tableModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 hidden">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-champagne/30 relative space-y-6">
+            <button onclick="closeTableModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full glass-pill flex items-center justify-center text-warmIvory/60 hover:text-warmIvory">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div>
+                <span class="text-xs font-bold text-champagne uppercase tracking-widest">Riserva un'Esperienza</span>
+                <h3 class="text-2xl font-serif font-bold text-warmIvory">Prenotazione Tavolo</h3>
+                <p class="text-xs text-warmIvory/60 mt-1">Prenota il tuo tavolo per l'aperitivo o il caffè a El Barrio Caffè Olbia.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs font-semibold text-champagne">Nome e Cognome</label>
+                    <input type="text" id="resName" placeholder="es. Mario Rossi" class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Numero Persone</label>
+                        <select id="resGuests" class="mt-1 w-full px-4 py-2.5 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30">
+                            <option value="2 Persone">2 Persone</option>
+                            <option value="3-4 Persone">3-4 Persone</option>
+                            <option value="5-6 Persone">5-6 Persone</option>
+                            <option value="Gruppo (7+)">Gruppo (7+)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-champagne">Orario Arrivo</label>
+                        <input type="time" id="resTime" value="19:00" class="mt-1 w-full px-4 py-2.5 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-champagne">Note o Richieste Speciali</label>
+                    <input type="text" id="resNotes" placeholder="es. Tavolo per aperitivo, compleanno..." class="mt-1 w-full px-4 py-2.5 rounded-xl glass-pill text-xs text-warmIvory placeholder-warmIvory/40 focus:outline-none focus:border-champagne">
+                </div>
+            </div>
+
+            <button onclick="sendReservationWhatsApp()" class="w-full py-3.5 rounded-full bg-champagne text-black font-extrabold text-xs shadow-glow-gold hover:bg-champagneLight transition-all flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Conferma su WhatsApp 
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ITEM DETAIL MODAL -->
+    <div id="itemDetailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 sm:p-6 hidden">
+        <div class="glass-panel w-full max-w-xl rounded-3xl p-6 sm:p-8 border border-champagne/40 relative space-y-6 max-h-[92vh] overflow-y-auto custom-scrollbar shadow-2xl">
+            <button onclick="closeItemDetailModal()" class="absolute top-5 right-5 z-30 w-9 h-9 rounded-full bg-black/80 border border-champagne/50 flex items-center justify-center text-warmIvory hover:text-champagne hover:scale-110 transition-all shadow-lg">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+
+            <div class="relative h-60 sm:h-72 rounded-2xl overflow-hidden border border-champagne/30 shadow-xl group">
+                <img id="detailImg" src="" alt="Detail" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-2 flex-wrap">
+                    <span id="detailBadge" class="px-3.5 py-1.5 rounded-full bg-black/85 text-champagne font-bold text-xs border border-champagne/40 backdrop-blur-md tracking-wider uppercase"></span>
+                    <span id="detailAlcohol" class="px-3.5 py-1.5 rounded-full bg-amberGlow/25 text-amber-300 font-bold text-xs border border-amberGlow/50 backdrop-blur-md"></span>
+                </div>
+            </div>
+
+            <div class="space-y-2 text-left">
+                <h3 id="detailTitle" class="text-2xl sm:text-3xl font-serif font-bold text-warmIvory leading-tight"></h3>
+                <p id="detailDesc" class="text-xs sm:text-sm text-warmIvory/80 leading-relaxed font-light"></p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl bg-petrolDark/90 border border-champagne/20 space-y-1.5 shadow-inner sm:col-span-2">
+                    <div class="flex items-center gap-2 text-champagne text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-seedling"></i> Ingredienti Principali</div>
+                    <p id="detailIngredients" class="text-xs sm:text-sm text-warmIvory/90 leading-relaxed pl-5"></p>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-petrolDark/90 border border-champagne/20 space-y-1.5 shadow-inner">
+                    <div class="flex items-center gap-2 text-amberGlow text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-utensils"></i> Abbinamenti Consigliati</div>
+                    <p id="detailPairing" class="text-xs sm:text-sm text-champagneLight font-medium leading-relaxed pl-5"></p>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-petrolDark/90 border border-champagne/20 space-y-1.5 shadow-inner">
+                    <div class="flex items-center gap-2 text-red-400 text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-triangle-exclamation"></i> Allergeni & Note</div>
+                    <p id="detailAllergens" class="text-xs sm:text-sm text-warmIvory/80 leading-relaxed pl-5"></p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-champagne/20">
+                <div>
+                    <span class="text-[10px] text-warmIvory/50 uppercase tracking-widest font-semibold block">Prezzo al pubblico</span>
+                    <span id="detailPrice" class="text-2xl sm:text-3xl font-serif font-bold text-champagne"></span>
+                </div>
+                <button onclick="closeItemDetailModal()" class="px-7 py-3 rounded-full bg-champagne text-black font-extrabold text-xs tracking-wider uppercase shadow-glow-gold hover:bg-champagneLight transition-all">
+                    Chiudi Scheda
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SDK FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, collection, doc, onSnapshot 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1IsAvDx1vUJfln0FuXzk1j4BeKRKLo4A",
+            authDomain: "elbarrio-olbia.firebaseapp.com",
+            projectId: "elbarrio-olbia",
+            storageBucket: "elbarrio-olbia.firebasestorage.app",
+            messagingSenderId: "72423617426",
+            appId: "1:72423617426:web:c3a7f7e7e76c3f0bea874b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.fsCollection = collection;
+        window.fsDoc = doc;
+        window.fsOnSnapshot = onSnapshot;
+
+        if (typeof window.initCloudFrontend === 'function') {
+            window.initCloudFrontend();
+        }
+    </script>
+
+    <script>
+        let menuData = [];
+        let eventsData = [];
+        let activeCategory = 'all';
+        let storeStatusData = { overrideClosed: false, overrideMsg: 'Chiusura Straordinaria / Ferie' };
+        let highlightedProductId = "1";
+        let topMustProductIds = ["1", "2", "3"];
+
+        // Funzione corretta e precisa al minuto per stabilire se un evento è terminato
+        function isEventEnded(ev) {
+            if (!ev) return true;
+            const now = new Date();
+            let eventEndDateTime = null;
+
+            if (ev.dateIso) {
+                const dateParts = ev.dateIso.split('-');
+                if (dateParts.length === 3) {
+                    eventEndDateTime = new Date(parseInt(dateParts[0], 10), parseInt(dateParts[1], 10) - 1, parseInt(dateParts[2], 10), 23, 59, 59);
+                }
+            }
+
+            if (!eventEndDateTime) {
+                const dayLower = (ev.date || '').toLowerCase();
+                if (dayLower.includes('stasera') || dayLower.includes('oggi')) {
+                    eventEndDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+                } else {
+                    return false;
+                }
+            }
+
+            if (ev.time) {
+                const timeMatches = ev.time.match(/(\d{1,2})[:\.](\d{2})/g);
+                if (timeMatches && timeMatches.length >= 2) {
+                    const [endH, endM] = timeMatches[1].split(/:|\./).map(Number);
+                    eventEndDateTime.setHours(endH, endM, 0, 0);
+
+                    const [startH] = timeMatches[0].split(/:|\./).map(Number);
+                    if (endH < startH || (endH <= 4 && startH >= 20)) {
+                        if (now.getHours() >= startH) {
+                            eventEndDateTime.setDate(eventEndDateTime.getDate() + 1);
+                        }
+                    }
+                }
+            }
+
+            return now.getTime() > eventEndDateTime.getTime();
+        }
+
+        window.initCloudFrontend = function() {
+            initAmbientCanvas();
+
+            window.fsOnSnapshot(window.fsCollection(window.db, "menu"), (snapshot) => {
+                menuData = [];
+                snapshot.forEach((doc) => {
+                    menuData.push({ id: doc.id, ...doc.data() });
+                });
+                renderMenuCards();
+                renderHighlightedProduct();
+                renderTopHouseCards();
+            });
+
+            window.fsOnSnapshot(window.fsCollection(window.db, "events"), (snapshot) => {
+                eventsData = [];
+                snapshot.forEach((doc) => {
+                    eventsData.push({ id: doc.id, ...doc.data() });
+                });
+                renderEventsCards();
+                renderHomeNextEvent();
+            });
+
+            window.fsOnSnapshot(window.fsDoc(window.db, "settings", "storeStatus"), (docSnap) => {
+                if (docSnap.exists()) {
+                    storeStatusData = docSnap.data();
+                } else {
+                    storeStatusData = { overrideClosed: false, overrideMsg: 'Chiusura Straordinaria / Ferie' };
+                }
+                checkOpenStatus();
+            });
+
+            window.fsOnSnapshot(window.fsDoc(window.db, "settings", "highlight"), (docSnap) => {
+                if (docSnap.exists()) {
+                    highlightedProductId = docSnap.data().productId || "1";
+                }
+                renderHighlightedProduct();
+            });
+
+            window.fsOnSnapshot(window.fsDoc(window.db, "settings", "topMust"), (docSnap) => {
+                if (docSnap.exists() && docSnap.data().productIds) {
+                    topMustProductIds = docSnap.data().productIds;
+                }
+                renderTopHouseCards();
+            });
+
+            setInterval(checkOpenStatus, 60000);
+            setInterval(renderHomeNextEvent, 30000);
+        };
+
+        window.addEventListener('scroll', function() {
+            const scrollBtn = document.getElementById('scrollToTopBtn');
+            if (!scrollBtn) return;
+            if (window.scrollY > 300) {
+                scrollBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                scrollBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                scrollBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+function checkOpenStatus() {
+            const isOverrideClosed = storeStatusData.overrideClosed === true;
+            const overrideMsg = storeStatusData.overrideMsg || 'Chiusura Straordinaria / Ferie';
+
+            const statusTextEl = document.getElementById('statusText');
+            const statusBoxEl = document.getElementById('statusBox');
+            const statusDotEl = document.getElementById('statusDot');
+            const closingInfoTextEl = document.getElementById('closingInfoText');
+
+            if (isOverrideClosed) {
+                if (statusTextEl) statusTextEl.textContent = overrideMsg;
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-red-500 shrink-0";
+                if (closingInfoTextEl) closingInfoTextEl.textContent = "Locale Chiuso";
+                return;
+            }
+
+            const now = new Date();
+            const day = now.getDay(); // 0 = Domenica, 1 = Lunedì ... 6 = Sabato
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTimeNum = hours * 60 + minutes;
+
+            const openingTime = 7 * 60; // 07:00 in minuti
+            let closingTime = 22 * 60 + 30; // 22:30 in minuti
+            let isWeekendNight = false;
+
+            // Venerdì (5) e Sabato (6) chiudono alle 02:00 di notte
+            if (day === 5 || day === 6) {
+                closingTime = 2 * 60; // 02:00 in minuti
+                isWeekendNight = true;
+            }
+
+            let isOpen = false;
+
+            if (isWeekendNight) {
+                if (currentTimeNum >= openingTime || currentTimeNum < closingTime) isOpen = true;
+            } else if (day === 0) { // Domenica
+                if (currentTimeNum >= openingTime || currentTimeNum < 2 * 60) isOpen = true;
+            } else { // Giorni normali (Lun-Gio)
+                if (currentTimeNum >= openingTime && currentTimeNum < closingTime) isOpen = true;
+            }
+
+            // Impostazione dinamica del testo a fianco dello stato
+            if (closingInfoTextEl) {
+                if (isOpen) {
+                    // Se è APERTO, mostra l'orario di chiusura
+                    if (day === 5 || day === 6 || day === 0) {
+                        closingInfoTextEl.textContent = "Chiude alle 02:00";
+                    } else {
+                        closingInfoTextEl.textContent = "Chiude alle 22:30";
+                    }
+                } else {
+                    // Se è CHIUSO, mostra quando apre (alle 07:00)
+                    closingInfoTextEl.textContent = "Apre alle 07:00";
+                }
+            }
+
+            if (isOpen) {
+                if (statusTextEl) statusTextEl.textContent = "APERTO";
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0";
+            } else {
+                if (statusTextEl) statusTextEl.textContent = "CHIUSO";
+                if (statusBoxEl) statusBoxEl.className = "flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 rounded-xl bg-red-950/70 border border-red-500/50 text-red-300 text-[11px] sm:text-xs font-bold tracking-wider uppercase shadow-md";
+                if (statusDotEl) statusDotEl.className = "w-2.5 h-2.5 rounded-full bg-red-500 shrink-0";
+            }
+        }
+
+        function renderHighlightedProduct() {
+            const item = menuData.find(i => String(i.id) === String(highlightedProductId));
+            if (!item) return;
+
+            const imgEl = document.getElementById('heroImg');
+            const titleEl = document.getElementById('heroItemTitle');
+            const priceEl = document.getElementById('heroItemPrice');
+
+            if (imgEl) imgEl.src = item.image;
+            if (titleEl) titleEl.textContent = item.name;
+            if (priceEl) priceEl.textContent = item.price;
+        }
+
+        function renderHomeNextEvent() {
+            const titleEl = document.getElementById('homeEventTitle');
+            const artistEl = document.getElementById('homeEventArtistText');
+            const dateBadgeEl = document.getElementById('homeEventDateBadge');
+            const timeTextEl = document.getElementById('homeEventTimeText');
+            const cardContainer = document.getElementById('homeNextEventCard');
+
+            if (!titleEl) return;
+
+            // Filtra e ordina cronologicamente dal più vicino al più lontano
+            const activeUpcomingEvents = eventsData
+                .filter(ev => !isEventEnded(ev))
+                .sort((a, b) => {
+                    const dateA = a.dateIso || '9999-12-31';
+                    const dateB = b.dateIso || '9999-12-31';
+                    return dateA.localeCompare(dateB);
+                });
+
+            if (activeUpcomingEvents.length === 0) {
+                titleEl.textContent = "Nessun evento imminente";
+                artistEl.textContent = "Programmazione in aggiornamento";
+                dateBadgeEl.textContent = "Prossimamente";
+                timeTextEl.textContent = "Seguici per scoprire i prossimi eventi live";
+                
+                const statusHeader = cardContainer.querySelector('.flex.items-center.justify-between.pb-3');
+                if (statusHeader) {
+                    statusHeader.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-champagne"></span>
+                            <span class="text-[11px] font-extrabold tracking-widest text-champagne uppercase">Prossimo Evento</span>
+                        </div>
+                        <span class="px-2.5 py-0.5 rounded-full bg-champagne/20 text-champagne font-bold text-[10px] border border-champagne/30">In Arrivo</span>
+                    `;
+                }
+                return;
+            }
+
+            const currentEvent = activeUpcomingEvents[0];
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            let isLiveNow = false;
+
+            if (currentEvent && currentEvent.time) {
+                const timeMatches = currentEvent.time.match(/(\d{1,2})[:\.](\d{2})/g);
+                if (timeMatches && timeMatches.length >= 2) {
+                    const [startH, startM] = timeMatches[0].split(/:|\./).map(Number);
+                    const startMinutes = startH * 60 + startM;
+
+                    const [endH, endM] = timeMatches[1].split(/:|\./).map(Number);
+                    const endMinutes = endH * 60 + endM;
+
+                    // Controlla se l'evento attraversa la mezzanotte
+                    if (endMinutes < startMinutes) {
+                        // Es. 20:00 - 01:00 (Se siamo dopo le 20:00 OPPURE prima delle 01:00)
+                        if (currentMinutes >= startMinutes || currentMinutes <= endMinutes) {
+                            isLiveNow = true;
+                        }
+                    } else {
+                        // Es. 18:00 - 22:00 (Stesso giorno, logica normale)
+                        if (currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+                            isLiveNow = true;
+                        }
+                    }
+                }
+            }
+
+            titleEl.textContent = currentEvent.title;
+            artistEl.textContent = currentEvent.artist;
+            dateBadgeEl.textContent = currentEvent.date;
+            timeTextEl.textContent = `${currentEvent.time} • ${currentEvent.price}`;
+
+            const statusHeader = cardContainer.querySelector('.flex.items-center.justify-between.pb-3');
+            
+            if (isLiveNow) {
+                statusHeader.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-[11px] font-extrabold tracking-widest text-emerald-400 uppercase">Evento in Corso</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">Live Ora</span>
+                `;
+            } else {
+                statusHeader.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        </span>
+                        <span class="text-[11px] font-extrabold tracking-widest text-champagne uppercase">Prossimo Evento</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-champagne/20 text-champagne font-bold text-[10px] border border-champagne/30">${currentEvent.date}</span>
+                `;
+            }
+        }
+
+        function quickReserveEventFromHome() {
+            const activeEvents = eventsData
+                .filter(ev => !isEventEnded(ev))
+                .sort((a, b) => (a.dateIso || '9999-12-31').localeCompare(b.dateIso || '9999-12-31'));
+            const nextEvent = activeEvents[0];
+            const eventTitle = nextEvent ? nextEvent.title : 'Serata Live';
+            openTableModal();
+            const notesInput = document.getElementById('resNotes');
+            if (notesInput) notesInput.value = `Riservazione per l'evento in primo piano: ${eventTitle}`;
+        }
+
+        function renderTopHouseCards() {
+            const container = document.getElementById('topHouseContainer');
+            if (!container || menuData.length === 0) return;
+
+            const topItems = topMustProductIds.map(id => menuData.find(item => String(item.id) === String(id))).filter(Boolean);
+            const itemsToRender = topItems.length > 0 ? topItems : menuData.slice(0, 3);
+
+            container.innerHTML = itemsToRender.map(item => `
+                <div class="glass-panel rounded-2xl overflow-hidden border border-champagne/15 flex flex-col justify-between hover:border-champagne/50 transition-all group shadow-lg">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/80 text-champagne font-bold text-xs border border-champagne/30">
+                            ${item.price}
+                        </span>
+                    </div>
+                    <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] text-champagne uppercase font-bold tracking-widest">${item.category}</span>
+                            <h4 class="font-serif font-bold text-warmIvory text-sm">${item.name}</h4>
+                            <p class="text-[11px] text-warmIvory/60 line-clamp-2">${item.desc}</p>
+                        </div>
+                        <button onclick="openItemDetailModal('${item.id}')" class="w-full py-2 rounded-full glass-pill text-xs font-semibold text-champagne hover:bg-champagne/10 border border-champagne/30 transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-xs"></i> Scopri dettagli
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initAmbientCanvas() {
+            const canvas = document.getElementById('ambientCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const particles = [];
+            const particleCount = Math.min(Math.floor(window.innerWidth / 25), 45);
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    color: Math.random() > 0.5 ? 'rgba(212, 175, 55, ' : 'rgba(217, 119, 6, ',
+                    alpha: Math.random() * 0.5 + 0.1,
+                    speedY: Math.random() * 0.4 + 0.1,
+                    speedX: (Math.random() - 0.5) * 0.3
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    p.x += p.speedX;
+                    if (p.y < -10) {
+                        p.y = canvas.height + 10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + p.alpha + ')';
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = '#d4af37';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function switchTab(tab) {
+            const views = ['home', 'menu', 'events', 'propose'];
+            views.forEach(v => {
+                const el = document.getElementById(`view${v.charAt(0).toUpperCase() + v.slice(1)}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const activeView = document.getElementById(`view${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            const desktopBtns = ['btnTabHome', 'btnTabMenu', 'btnTabEvents', 'btnTabPropose'];
+            desktopBtns.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) btn.className = "nav-tab-btn px-5 py-2 rounded-full text-xs font-semibold transition-all text-warmIvory/80 hover:text-champagne hover:bg-white/5";
+            });
+
+            const currentBtn = document.getElementById(`btnTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (currentBtn) currentBtn.className = "nav-tab-btn active-tab px-5 py-2 rounded-full text-xs font-semibold transition-all bg-champagne text-black font-bold shadow-glow-gold";
+
+            const mobileBtns = ['mbBtnHome', 'mbBtnMenu', 'mbBtnEvents', 'mbBtnPropose'];
+            mobileBtns.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) btn.className = "mobile-tab-btn text-warmIvory/60 flex flex-col items-center gap-1";
+            });
+            const activeMbBtn = document.getElementById(`mbBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (activeMbBtn) activeMbBtn.className = "mobile-tab-btn text-champagne flex flex-col items-center gap-1 font-bold scale-105 transition-all";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectCategory(cat) {
+            activeCategory = cat;
+            const categories = ['all', 'cocktails', 'aperitivi', 'vini', 'alcolici', 'birre', 'analcolici', 'tisane', 'caffetteria'];
+            categories.forEach(c => {
+                const btn = document.getElementById(`cat_${c}`);
+                if (btn) {
+                    if (c === cat) {
+                        btn.className = "px-4 py-2 rounded-full text-xs font-bold bg-champagne text-black whitespace-nowrap transition-all shadow-glow-gold";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all";
+                    }
+                }
+            });
+            renderMenuCards();
+        }
+
+        function filterMenuCards() {
+            renderMenuCards();
+        }
+
+        function openItemDetailModal(id) {
+            const item = menuData.find(i => String(i.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('detailImg').src = item.image;
+            document.getElementById('detailTitle').textContent = item.name;
+            document.getElementById('detailDesc').textContent = item.desc;
+            document.getElementById('detailIngredients').textContent = item.ingredients;
+            document.getElementById('detailPairing').textContent = item.pairing;
+            document.getElementById('detailAllergens').textContent = item.allergens;
+            document.getElementById('detailPrice').textContent = item.price;
+            document.getElementById('detailBadge').textContent = item.category.toUpperCase();
+            document.getElementById('detailAlcohol').textContent = item.alcohol || '0.0% Vol.';
+
+            const modalContentContainer = document.querySelector('#itemDetailModal .glass-panel');
+            const existingMustBtn = document.getElementById('popupMustReserveBtn');
+            if (existingMustBtn) existingMustBtn.remove();
+
+            const isCurrentMust = topMustProductIds.some(mustId => String(mustId) === String(id));
+
+            if (isCurrentMust) {
+                const mustBtnDiv = document.createElement('div');
+                mustBtnDiv.id = 'popupMustReserveBtn';
+                mustBtnDiv.className = "pt-2";
+                mustBtnDiv.innerHTML = `
+                    <button onclick="quickReserveMustFromPopup('${item.name}')" class="w-full py-3 px-3 rounded-2xl bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs uppercase tracking-tighter sm:tracking-normal shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2 whitespace-nowrap overflow-hidden">
+                        <i class="fa-solid fa-utensils text-sm shrink-0"></i>
+                        <span class="truncate">Prenota ora per assaggiarlo</span>
+                    </button>
+                `;
+                const footerActionDiv = modalContentContainer.querySelector('.flex.items-center.justify-between.pt-4');
+                modalContentContainer.insertBefore(mustBtnDiv, footerActionDiv);
+            }
+
+            document.getElementById('itemDetailModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function quickReserveMustFromPopup(itemName) {
+            closeItemDetailModal();
+            openTableModal();
+            const notesInput = document.getElementById('resNotes');
+            if (notesInput) {
+                notesInput.value = `Vorrei prenotare un tavolo per assaggiare il Must: ${itemName}`;
+            }
+        }
+
+        function closeItemDetailModal() {
+            document.getElementById('itemDetailModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function openTableModal() {
+            document.getElementById('tableModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTableModal() {
+            document.getElementById('tableModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function quickReserveEvent(eventTitle) {
+            openTableModal();
+            const notesInput = document.getElementById('resNotes');
+            if (notesInput) notesInput.value = `Riservazione per l'evento: ${eventTitle}`;
+        }
+
+        function sendReservationWhatsApp() {
+            const name = document.getElementById('resName').value || 'Cliente';
+            const guests = document.getElementById('resGuests').value;
+            const time = document.getElementById('resTime').value;
+            const notes = document.getElementById('resNotes').value || 'Nessuna nota';
+
+            const text = encodeURIComponent(`Ciao El Barrio Caffè Olbia, vorrei prenotare un tavolo!\n\n📌 Nome: ${name}\n👥 Persone: ${guests}\n⏰ Orario: ${time}\n📝 Note: ${notes}`);
+            window.open(`https://wa.me/393493644167?text=${text}`, '_blank');
+            closeTableModal();
+        }
+
+        function submitProposalWhatsApp() {
+            const name = document.getElementById('propName').value || 'Artista/Organizzatore';
+            const phone = document.getElementById('propPhone').value || 'Non specificato';
+            const title = document.getElementById('propTitle').value || 'Nuovo Evento';
+            const date = document.getElementById('propDate').value || 'Da definire';
+            const time = document.getElementById('propTime').value || 'Orario da definire';
+            const type = document.getElementById('propType').value;
+            const style = document.getElementById('propStyle').value || 'Non specificato';
+            const dressCode = document.getElementById('propDressCode').value || 'Libero';
+            const desc = document.getElementById('propDesc').value || 'Nessun dettaglio aggiuntivo';
+
+            const text = encodeURIComponent(`Ciao El Barrio Caffè Olbia, vi invio una proposta di evento:\n\n👤 Nome: ${name}\n📞 Contatto: ${phone}\n🎉 Titolo Serata: ${title}\n📅 Data e Ora: ${date} — ${time}\n🎭 Tipo: ${type}\n🎵 Stile: ${style}\n👔 Dress Code: ${dressCode}\n💬 Dettagli: ${desc}`);
+            window.open(`https://wa.me/393493644167?text=${text}`, '_blank');
+        }
+
+        function renderMenuCards() {
+            const container = document.getElementById('menuContainer');
+            if (!container) return;
+            const searchInput = document.getElementById('menuSearchInput');
+            const search = searchInput ? searchInput.value.toLowerCase() : '';
+
+            const filtered = menuData.filter(item => {
+                const matchCat = activeCategory === 'all' || item.category === activeCategory;
+                const matchSearch = item.name.toLowerCase().includes(search) || item.ingredients.toLowerCase().includes(search);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-warmIvory/40 text-xs">Nessun prodotto trovato.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="glass-panel rounded-2xl overflow-hidden border border-champagne/15 flex flex-col justify-between hover:border-champagne/50 transition-all group shadow-lg ${item.soldOut ? 'opacity-60' : ''}">
+                    <div class="relative h-44 overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/80 text-champagne font-bold text-xs border border-champagne/30">
+                            ${item.price}
+                        </span>
+                        ${item.soldOut ? '<span class="absolute inset-0 bg-black/70 flex items-center justify-center text-red-400 font-extrabold text-sm uppercase tracking-widest border border-red-500/50">Esaurito / Sold Out</span>' : ''}
+                    </div>
+                    <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif font-bold text-warmIvory text-base">${item.name}</h3>
+                            <p class="text-xs text-warmIvory/60 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </div>
+                        <button onclick="openItemDetailModal('${item.id}')" class="w-full py-2.5 rounded-full glass-pill text-xs font-semibold text-champagne hover:bg-champagne/10 border border-champagne/30 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-info"></i> Scheda Completa & Abbinamenti
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderEventsCards() {
+            const container = document.getElementById('eventsContainer');
+            if (!container) return;
+
+            // Filtra gli eventi non scaduti e li ordina dal più vicino al più lontano
+            const activeEvents = eventsData
+                .filter(ev => !isEventEnded(ev))
+                .sort((a, b) => {
+                    const dateA = a.dateIso || '9999-12-31';
+                    const dateB = b.dateIso || '9999-12-31';
+                    return dateA.localeCompare(dateB);
+                });
+
+            if (activeEvents.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-warmIvory/40 text-xs">Nessun evento in programmazione al momento.</div>`;
+                return;
+            }
+
+            container.innerHTML = activeEvents.map(ev => `
+                <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/25 space-y-6 hover:border-champagne/60 transition-all flex flex-col justify-between relative overflow-hidden shadow-card-depth">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <span class="px-3.5 py-1 rounded-full bg-champagne/20 text-champagne text-xs font-bold border border-champagne/40">
+                                <i class="fa-regular fa-calendar mr-1"></i> ${ev.date}
+                            </span>
+                            <span class="px-3.5 py-1 rounded-full bg-amberGlow/20 text-amberGlow text-xs font-bold border border-amberGlow/40">
+                                ${ev.badge || 'Live Stage'}
+                            </span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-serif font-bold text-warmIvory">${ev.title}</h3>
+                            <p class="text-xs text-champagne font-semibold mt-1"><i class="fa-solid fa-compact-disc mr-1"></i> ${ev.artist}</p>
+                        </div>
+
+                        <p class="text-xs text-warmIvory/70 leading-relaxed">${ev.desc}</p>
+
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div class="p-3 rounded-xl bg-petrolDark border border-champagne/20">
+                                <span class="text-[10px] text-champagne/70 uppercase font-bold tracking-widest block"><i class="fa-regular fa-clock text-amberGlow mr-1"></i> Orario Evento:</span>
+                                <p class="text-xs font-bold text-warmIvory mt-0.5">${ev.time}</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-petrolDark border border-champagne/20">
+                                <span class="text-[10px] text-champagne/70 uppercase font-bold tracking-widest block"><i class="fa-solid fa-ticket text-emerald-400 mr-1"></i> Costo / Ingresso:</span>
+                                <p class="text-xs font-bold text-warmIvory mt-0.5">${ev.price}</p>
+                            </div>
+                            ${ev.combo ? `
+                            <div class="p-3 rounded-xl bg-petrolDark border border-champagne/20 col-span-2">
+                                <span class="text-[10px] text-champagne/70 uppercase font-bold tracking-widest block"><i class="fa-solid fa-utensils text-champagne mr-1"></i> Special Combo Aperitivo:</span>
+                                <p class="text-xs font-semibold text-champagneLight mt-0.5">${ev.combo}</p>
+                            </div>` : ''}
+                            ${ev.groupOffer ? `
+                            <div class="p-3 rounded-xl bg-petrolDark border border-champagne/20 col-span-2">
+                                <span class="text-[10px] text-amber-400 uppercase font-bold tracking-widest block"><i class="fa-solid fa-users mr-1"></i> Promo Tavoli Numerosi & Gruppi:</span>
+                                <p class="text-xs font-medium text-warmIvory/90 mt-0.5">${ev.groupOffer}</p>
+                            </div>` : ''}
+                            ${ev.specialOffer ? `
+                            <div class="p-3 rounded-xl bg-petrolDark border border-champagne/20 col-span-2">
+                                <span class="text-[10px] text-emerald-400 uppercase font-bold tracking-widest block"><i class="fa-solid fa-star mr-1"></i> Offerte Speciali & Extra Serata:</span>
+                                <p class="text-xs font-medium text-warmIvory/90 mt-0.5">${ev.specialOffer}</p>
+                            </div>` : ''}
+                        </div>
+
+                        <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
+                            ${ev.style ? `<span class="px-3 py-1 rounded-full bg-white/5 text-[11px] text-warmIvory/80 border border-white/10 font-mono">🎵 Stile: ${ev.style}</span>` : ''}
+                            ${ev.dressCode ? `<span class="px-3 py-1 rounded-full bg-white/5 text-[11px] text-champagne/90 border border-white/10 font-mono">👔 Dress Code: ${ev.dressCode}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="quickReserveEvent('${ev.title}')" class="w-full py-3 px-6 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-calendar-check text-sm"></i> Prenota Tavolo per l'Evento
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+    </script>
+    
+</body>
+</html>

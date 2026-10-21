@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#080a0f">
+    <title>Pannello Gestione | El Barrio Caffè Olbia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#080a0f',
+                        petrolDark: '#0d1815',
+                        petrol: '#13231e',
+                        champagne: '#d4af37',
+                        champagneLight: '#f3e5ab',
+                        bronze: '#b8860b',
+                        amberGlow: '#d97706',
+                        warmIvory: '#f8f6f0',
+                        glassBg: 'rgba(13, 24, 21, 0.65)'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Outfit', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 0 35px rgba(212, 175, 55, 0.25)',
+                        'glow-petrol': '0 0 35px rgba(19, 35, 30, 0.5)',
+                        'card-depth': '0 25px 50px -12px rgba(0, 0, 0, 0.85)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #080a0f;
+            color: #f8f6f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(13, 24, 21, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .glass-pill {
+            background: rgba(248, 246, 240, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(8, 10, 15, 0.4);
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-champagne selection:text-black">
+
+    <header class="glass-panel border-b border-champagne/20 px-4 sm:px-8 py-4 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full border border-champagne/40 bg-petrolDark flex items-center justify-center font-serif text-champagne font-bold text-xl shadow-glow-gold">
+                B
+            </div>
+            <div>
+                <h1 class="font-serif font-bold text-lg tracking-wide text-warmIvory">
+                    EL BARRIO CAFFÈ
+                </h1>
+                <p class="text-[10px] text-champagne/70 uppercase tracking-widest font-semibold">Pannello di Controllo Direzione</p>
+            </div>
+        </div>
+
+        <div id="headerActions" class="hidden flex items-center gap-3">
+            <span class="text-xs text-emerald-400 font-semibold hidden sm:inline"><i class="fa-solid fa-cloud-check mr-1"></i> Cloud Firebase Attivo</span>
+            <button onclick="logoutAdmin()" class="px-4 py-2 rounded-full glass-pill border border-red-500/30 text-red-400 text-xs font-bold hover:bg-red-500/10 transition-all">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Esci
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 px-4 sm:px-8 py-8 max-w-7xl mx-auto w-full flex flex-col justify-center">
+
+        <!-- SCHERMATA 1: LOGIN ADMIN (FIREBASE AUTH) -->
+        <section id="secLogin" class="max-w-md mx-auto w-full space-y-6">
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/30 text-center space-y-6 shadow-2xl">
+                <div class="w-16 h-16 rounded-full border-2 border-champagne/50 bg-petrolDark mx-auto flex items-center justify-center text-champagne text-2xl shadow-glow-gold">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-serif font-bold text-warmIvory">Area Riservata</h2>
+                    <p class="text-xs text-warmIvory/60 mt-1">Inserisci le credenziali di amministrazione protette da Firebase Auth.</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                    <div>
+                        <label class="text-xs font-semibold text-champagne uppercase tracking-wider block mb-1">Email Gestore</label>
+                        <input type="email" id="inputEmail" placeholder="admin@elbarrio.it" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-sm text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne transition-all">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-semibold text-champagne uppercase tracking-wider block mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" id="inputPass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-sm text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne transition-all pr-10">
+                            <button type="button" onclick="togglePassVisibility('inputPass', 'eyeIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-warmIvory/50 hover:text-champagne text-sm">
+                                <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p id="loginError" class="text-xs text-red-400 font-semibold hidden text-center"><i class="fa-solid fa-circle-exclamation mr-1"></i> Credenziali errate o accesso non autorizzato.</p>
+
+                    <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs tracking-wider uppercase shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-key"></i> Accedi alla Dashboard
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SCHERMATA 2: DASHBOARD GESTIONALE -->
+        <section id="secDashboard" class="space-y-8 hidden">
+            
+            <div class="flex items-center gap-2 border-b border-champagne/20 pb-4 overflow-x-auto custom-scrollbar">
+                <button onclick="switchAdminTab('menu')" id="adminTabBtnMenu" class="px-5 py-2.5 rounded-full text-xs font-bold bg-champagne text-black shadow-glow-gold whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-martini-glass-citrus mr-2"></i> Gestione Menu & Prodotti
+                </button>
+                <button onclick="switchAdminTab('events')" id="adminTabBtnEvents" class="px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-calendar-days mr-2"></i> Gestione Eventi & Serate
+                </button>
+                <button onclick="switchAdminTab('history')" id="adminTabBtnHistory" class="px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-box-archive mr-2"></i> Storico Eventi
+                </button>
+                <button onclick="switchAdminTab('showcase')" id="adminTabBtnShowcase" class="px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-star mr-2"></i> Vetrina & Home in Evidenza
+                </button>
+                <button onclick="switchAdminTab('status')" id="adminTabBtnStatus" class="px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-store mr-2"></i> Info & Stato Locale (Ferie)
+                </button>
+                <button onclick="switchAdminTab('security')" id="adminTabBtnSecurity" class="px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-key mr-2"></i> Sicurezza & Password
+                </button>
+            </div>
+
+            <!-- TAB 1: GESTIONE MENU -->
+            <div id="adminViewMenu" class="space-y-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <div class="lg:col-span-5 glass-panel rounded-3xl p-6 border border-champagne/25 space-y-4 shadow-xl">
+                        <div class="border-b border-champagne/20 pb-3">
+                            <h3 class="text-xl font-serif font-bold text-warmIvory" id="formMenuTitle">Aggiungi Nuovo Prodotto</h3>
+                            <p class="text-xs text-warmIvory/60">Compila i campi o carica una foto per inserire/aggiornare un elemento del menu.</p>
+                        </div>
+
+                        <form onsubmit="saveMenuItem(event)" class="space-y-3.5">
+                            <input type="hidden" id="menuItemId">
+                            <input type="hidden" id="menuSoldOut" value="false">
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Nome Prodotto</label>
+                                <input type="text" id="menuName" required placeholder="es. Cocktail Sangría Especial" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Categoria</label>
+                                    <select id="menuCategory" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                        <option value="cocktails">Cocktails</option>
+                                        <option value="aperitivi">Aperitivi Speciali</option>
+                                        <option value="vini">Vini & Bollicine</option>
+                                        <option value="alcolici">Alcolici & Distillati</option>
+                                        <option value="birre">Birre</option>
+                                        <option value="analcolici">Bibite Analcoliche</option>
+                                        <option value="tisane">Tisane & Infusi</option>
+                                        <option value="caffetteria">Caffetteria</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Prezzo (€)</label>
+                                    <input type="text" id="menuPrice" required placeholder="es. €7.00" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Gradazione Alcolica</label>
+                                    <input type="text" id="menuAlcohol" placeholder="es. 8.5% Vol. o Analcolico" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">URL Immagine (Opzionale)</label>
+                                    <input type="url" id="menuImage" oninput="updateImagePreview(this.value)" placeholder="https://..." class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-petrolDark/80 border border-champagne/20 space-y-2">
+                                <label class="text-xs font-bold text-champagne block"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Carica Immagine dal Dispositivo (Upload)</label>
+                                <input type="file" id="menuFileUpload" accept="image/*" onchange="handleFileUpload(event)" class="w-full text-xs text-warmIvory/80 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-champagne file:text-black hover:file:bg-champagneLight">
+                                
+                                <div id="previewContainer" class="hidden flex items-center gap-3 pt-2 border-t border-white/10">
+                                    <img id="imgPreview" src="" class="w-14 h-14 rounded-xl object-cover border border-champagne/40">
+                                    <div>
+                                        <p class="text-[11px] text-emerald-400 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Foto caricata con successo</p>
+                                        <button type="button" onclick="clearImageUpload()" class="text-[10px] text-red-400 hover:underline">Rimuovi immagine</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Descrizione Breve</label>
+                                <textarea id="menuDesc" rows="2" placeholder="Descrizione del prodotto..." class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Ingredienti Principali</label>
+                                <input type="text" id="menuIngredients" placeholder="es. Vino rosso, frutta fresca, cannella" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Consigli d'Abbinamento</label>
+                                <input type="text" id="menuPairing" placeholder="es. Perfetto con tapas spagnole e salumi" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Allergeni & Intolleranze</label>
+                                <input type="text" id="menuAllergens" placeholder="es. Contiene Solfiti / Nessun allergene" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div class="pt-2 flex gap-2">
+                                <button type="submit" class="flex-1 py-3 rounded-full bg-champagne text-black font-extrabold text-xs tracking-wider uppercase shadow-glow-gold hover:bg-champagneLight transition-all">
+                                    <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Salva su Cloud
+                                </button>
+                                <button type="button" onclick="resetMenuForm()" class="px-4 py-3 rounded-full glass-pill text-warmIvory/60 hover:text-warmIvory text-xs">
+                                    Annulla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-serif font-bold text-warmIvory">Prodotti Attualmente nel Menu Cloud</h3>
+                            <span id="menuCountBadge" class="px-3 py-1 rounded-full bg-champagne/20 text-champagne font-bold text-xs border border-champagne/30">0 Prodotti</span>
+                        </div>
+
+                        <div id="adminMenuList" class="space-y-3 max-h-[750px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 2: GESTIONE EVENTI -->
+            <div id="adminViewEvents" class="space-y-8 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <div class="lg:col-span-6 glass-panel rounded-3xl p-6 border border-champagne/25 space-y-4 shadow-xl">
+                        <div class="border-b border-champagne/20 pb-3">
+                            <h3 class="text-xl font-serif font-bold text-warmIvory" id="formEventTitle">Aggiungi Nuovo Evento</h3>
+                            <p class="text-xs text-warmIvory/60">Seleziona la data tramite il widget a griglia (Mese e Giorno) senza inserimento manuale.</p>
+                        </div>
+
+                        <form onsubmit="saveEventItem(event)" class="space-y-3.5">
+                            <input type="hidden" id="eventId">
+                            <input type="hidden" id="eventDateIso" required>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Titolo Evento</label>
+                                <input type="text" id="eventTitle" required placeholder="es. Noche de Sangría & Live Acoustic" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Artista / DJ / Duo</label>
+                                    <input type="text" id="eventArtist" required placeholder="es. Duo Italo-Spagnolo" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Badge / Evidenza</label>
+                                    <input type="text" id="eventBadge" placeholder="es. Consigliato, Hot Night, Live Stage" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                            </div>
+
+                            <!-- WIDGET GRIGLIA DATA (MESE E GIORNO) -->
+                            <div class="p-4 rounded-2xl bg-petrolDark/90 border border-champagne/30 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-champagne uppercase tracking-wider"><i class="fa-solid fa-calendar-days mr-1.5"></i> Seleziona Data (Mese & Giorno)</label>
+                                    <span id="selectedDateDisplay" class="text-xs font-extrabold text-amber-300 px-2.5 py-1 rounded-lg bg-black/60 border border-champagne/30">Nessuna data selezionata</span>
+                                </div>
+
+                                <!-- Selezione Mese -->
+                                <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1" id="monthSelectorContainer">
+                                    <!-- Generato via JS -->
+                                </div>
+
+                                <!-- Griglia Giorni del Mese -->
+                                <div>
+                                    <p class="text-[11px] text-warmIvory/60 mb-1.5" id="daysGridLabel">Seleziona il giorno:</p>
+                                    <div class="grid grid-cols-7 gap-1.5 max-h-48 overflow-y-auto custom-scrollbar pr-1" id="daysGridContainer">
+                                        <!-- Generato via JS -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Orario</label>
+                                    <input type="text" id="eventTime" required placeholder="es. 20:30 — 23:30" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Ingresso / Costo</label>
+                                    <input type="text" id="eventPrice" required placeholder="es. Ingresso Libero" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Stile Musicale</label>
+                                    <input type="text" id="eventStyle" placeholder="es. Smooth Jazz & Lounge" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-champagne">Dress Code</label>
+                                    <input type="text" id="eventDressCode" placeholder="es. Casual Chic / Vibe Iberica" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Special Combo Aperitivo</label>
+                                <input type="text" id="eventCombo" placeholder="es. Sangría + Tapas miste a €10.00" class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-amber-400">Promo Tavoli Numerosi & Gruppi</label>
+                                <textarea id="eventGroupOffer" rows="2" placeholder="es. Promo Tavoli Numerosi (da 6+ persone): 1 Caraffa omaggio..." class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-emerald-400">Offerte Speciali & Extra Serata</label>
+                                <textarea id="eventSpecialOffer" rows="2" placeholder="es. Shooting fotografico e calice di benvenuto omaggio..." class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-semibold text-champagne">Descrizione Breve</label>
+                                <textarea id="eventDesc" rows="2" placeholder="Descrizione dell'evento..." class="mt-1 w-full px-4 py-2 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></textarea>
+                            </div>
+
+                            <div class="pt-2 flex gap-2">
+                                <button type="submit" class="flex-1 py-3 rounded-full bg-champagne text-black font-extrabold text-xs tracking-wider uppercase shadow-glow-gold hover:bg-champagneLight transition-all">
+                                    <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Salva Evento Cloud
+                                </button>
+                                <button type="button" onclick="resetEventForm()" class="px-4 py-3 rounded-full glass-pill text-warmIvory/60 hover:text-warmIvory text-xs">
+                                    Annulla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-serif font-bold text-warmIvory">Eventi in Programmazione Cloud</h3>
+                            <span id="eventsCountBadge" class="px-3 py-1 rounded-full bg-champagne/20 text-champagne font-bold text-xs border border-champagne/30">0 Eventi Attivi</span>
+                        </div>
+
+                        <div id="adminEventsList" class="space-y-4 max-h-[750px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB STORICO EVENTI -->
+            <div id="adminViewHistory" class="space-y-6 hidden">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-champagne/20 pb-4">
+                        <div>
+                            <h3 class="text-2xl font-serif font-bold text-warmIvory"><i class="fa-solid fa-box-archive text-champagne mr-2"></i> Storico Eventi Conclusi</h3>
+                            <p class="text-xs text-warmIvory/60 mt-1">Archivio degli eventi il cui orario o data di svolgimento è già passato. Da hier puoi riprogrammarli o eliminarli definitivamente.</p>
+                        </div>
+                        <span id="historyEventsCountBadge" class="px-3 py-1 rounded-full bg-champagne/20 text-champagne font-bold text-xs border border-champagne/30">0 Eventi nello Storico</span>
+                    </div>
+
+                    <div id="adminHistoryEventsList" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[750px] overflow-y-auto custom-scrollbar pr-1"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: VETRINA & HOME IN EVIDENZA -->
+            <div id="adminViewShowcase" class="space-y-6 hidden">
+                <div class="max-w-xl mx-auto space-y-6">
+                    
+                    <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/30 space-y-5 shadow-2xl">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-warmIvory"><i class="fa-solid fa-star text-champagne mr-2"></i> Prodotto Principale in Evidenza (Hero)</h3>
+                            <p class="text-xs text-warmIvory/60 mt-1">Scegli quale cocktail o piatto mostrare in primo piano nella grande card della pagina iniziale.</p>
+                        </div>
+
+                        <form onsubmit="saveHighlightedProduct(event)" class="space-y-4">
+                            <div>
+                                <label class="text-xs font-semibold text-champagne block mb-1">Seleziona Prodotto</label>
+                                <select id="highlightSelect" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></select>
+                            </div>
+
+                            <p id="highlightSaveMsg" class="text-xs font-bold hidden text-center py-2 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">Prodotto Hero aggiornato sul Cloud!</p>
+
+                            <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs uppercase tracking-wider shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Salva Prodotto Hero Cloud
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/30 space-y-5 shadow-2xl">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-warmIvory"><i class="fa-solid fa-fire text-champagne mr-2"></i> Griglia "I Must" in Homepage</h3>
+                            <p class="text-xs text-warmIvory/60 mt-1">Seleziona i 3 prodotti rappresentativi da mostrare nella vetrina dei più ordinati.</p>
+                        </div>
+
+                        <form onsubmit="saveTopMustProducts(event)" class="space-y-4">
+                            <div>
+                                <label class="text-xs font-semibold text-champagne block mb-1">Primo Prodotto "Must"</label>
+                                <select id="topMust1" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-champagne block mb-1">Secondo Prodotto "Must"</label>
+                                <select id="topMust2" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-champagne block mb-1">Terzo Prodotto "Must"</label>
+                                <select id="topMust3" required class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne"></select>
+                            </div>
+
+                            <p id="topMustSaveMsg" class="text-xs font-bold hidden text-center py-2 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">Sezione "I Must" aggiornata sul Cloud!</p>
+
+                            <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs uppercase tracking-wider shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Salva "I Must" in Cloud
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 4: INFO & STATO LOCALE -->
+            <div id="adminViewStatus" class="space-y-6 hidden">
+                <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/30 max-w-xl mx-auto space-y-6 shadow-2xl">
+                    <div>
+                        <h3 class="text-2xl font-serif font-bold text-warmIvory"><i class="fa-solid fa-store text-champagne mr-2"></i> Gestione Stato Locale</h3>
+                        <p class="text-xs text-warmIvory/60 mt-1">Imposta una chiusura straordinaria (ferie, permessi, lavori) per mostrare subito "CHIUSO" sul sito a tutti i clienti.</p>
+                    </div>
+
+                    <form onsubmit="saveStoreStatus(event)" class="space-y-4">
+                        <div class="p-4 rounded-2xl bg-petrolDark border border-champagne/20 flex items-center justify-between">
+                            <div>
+                                <label class="text-sm font-bold text-warmIvory block">Stato Straordinario</label>
+                                <p class="text-xs text-warmIvory/60">Se attivo, il locale risulterà chiuso a tutti i visitatori.</p>
+                            </div>
+                            <input type="checkbox" id="overrideClosedToggle" class="w-5 h-5 accent-champagne cursor-pointer">
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-semibold text-champagne block mb-1">Messaggio di Chiusura / Ferie</label>
+                            <input type="text" id="overrideMsgInput" placeholder="es. Chiusi per ferie dal 20 al 25 Ottobre" class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                        </div>
+
+                        <p id="statusSaveMsg" class="text-xs font-bold hidden text-center py-2 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">Stato del locale aggiornato in Cloud!</p>
+
+                        <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs uppercase tracking-wider shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Salva Stato Locale Cloud
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 5: SICUREZZA -->
+            <div id="adminViewSecurity" class="space-y-6 hidden">
+                <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-champagne/30 max-w-xl mx-auto space-y-6 shadow-2xl">
+                    <div>
+                        <h3 class="text-2xl font-serif font-bold text-warmIvory"><i class="fa-solid fa-shield-halved text-champagne mr-2"></i> Cambia Password Admin</h3>
+                        <p class="text-xs text-warmIvory/60 mt-1">Aggiorna la chiave di accesso sicura tramite Firebase Authentication.</p>
+                    </div>
+
+                    <form onsubmit="handleChangePassword(event)" class="space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-champagne block mb-1">Nuova Password</label>
+                            <input type="password" id="newPassInput" required placeholder="Minimo 6 caratteri" class="w-full px-4 py-3 rounded-xl bg-charcoal text-xs text-warmIvory border border-champagne/30 focus:outline-none focus:border-champagne">
+                        </div>
+
+                        <p id="passChangeMsg" class="text-xs font-bold hidden text-center py-2 rounded-xl"></p>
+
+                        <button type="submit" class="w-full py-3.5 rounded-full bg-gradient-to-r from-champagne to-bronze text-black font-extrabold text-xs uppercase tracking-wider shadow-glow-gold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Aggiorna Password Cloud
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="glass-panel border-t border-champagne/15 px-4 py-4 text-center text-xs text-warmIvory/40">
+        El Barrio Caffè Olbia — Viale Aldo Moro 128 • Panel Admin Cloud v2.5
+    </footer>
+
+    <!-- SDK FIREBASE & AUTH -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { 
+            getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1IsAvDx1vUJfln0FuXzk1j4BeKRKLo4A",
+            authDomain: "elbarrio-olbia.firebaseapp.com",
+            projectId: "elbarrio-olbia",
+            storageBucket: "elbarrio-olbia.firebasestorage.app",
+            messagingSenderId: "72423617426",
+            appId: "1:72423617426:web:c3a7f7e7e76c3f0bea874b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.db = db;
+        window.auth = auth;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.signOut = signOut;
+        window.updatePassword = updatePassword;
+        window.fsDoc = doc;
+        window.fsSetDoc = setDoc;
+        window.fsGetDoc = getDoc;
+        window.fsGetDocs = getDocs;
+        window.fsDeleteDoc = deleteDoc;
+        window.fsCollection = collection;
+        window.fsOnSnapshot = onSnapshot;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('secLogin').classList.add('hidden');
+                document.getElementById('secDashboard').classList.remove('hidden');
+                document.getElementById('headerActions').classList.remove('hidden');
+                if (typeof window.initCloudAdmin === 'function') {
+                    window.initCloudAdmin();
+                }
+            } else {
+                document.getElementById('secLogin').classList.remove('hidden');
+                document.getElementById('secDashboard').classList.add('hidden');
+                document.getElementById('headerActions').classList.add('hidden');
+            }
+        });
+    </script>
+
+    <script>
+        let currentUploadedBase64 = "";
+
+        let localMenuData = [];
+        let localEventsData = [];
+
+        // Variabili per il widget data (Mese e Giorno)
+        let selectedMonth = new Date().getMonth(); // 0 - 11
+        let selectedDay = new Date().getDate();     // 1 - 31
+
+        const monthsNames = [
+            "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+            "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
+        ];
+
+        function initDateWidget(defaultMonth = null, defaultDay = null) {
+            if (defaultMonth !== null) selectedMonth = defaultMonth;
+            if (defaultDay !== null) selectedDay = defaultDay;
+
+            renderMonthSelector();
+            renderDaysGrid();
+            updateSelectedDateOutput();
+        }
+
+        function renderMonthSelector() {
+            const container = document.getElementById('monthSelectorContainer');
+            if (!container) return;
+
+            container.innerHTML = monthsNames.map((m, idx) => `
+                <button type="button" onclick="selectMonth(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${idx === selectedMonth ? 'bg-champagne text-black shadow-glow-gold' : 'glass-pill text-warmIvory/70 hover:text-champagne'}">
+                    ${m}
+                </button>
+            `).join('');
+        }
+
+        function selectMonth(monthIdx) {
+            selectedMonth = monthIdx;
+            // Controlla se il giorno selezionato esiste nel nuovo mese, altrimenti imposta 1
+            const maxDays = new Date(new Date().getFullYear(), selectedMonth + 1, 0).getDate();
+            if (selectedDay > maxDays) {
+                selectedDay = maxDays;
+            }
+            renderMonthSelector();
+            renderDaysGrid();
+            updateSelectedDateOutput();
+        }
+
+        function renderDaysGrid() {
+            const container = document.getElementById('daysGridContainer');
+            const label = document.getElementById('daysGridLabel');
+            if (!container) return;
+
+            label.textContent = `Seleziona il giorno di ${monthsNames[selectedMonth]}:`;
+
+            const year = new Date().getFullYear();
+            const daysInMonth = new Date(year, selectedMonth + 1, 0).getDate();
+
+            let html = '';
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isSelected = d === selectedDay;
+                html += `
+                    <button type="button" onclick="selectDay(${d})" class="py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center ${isSelected ? 'bg-gradient-to-r from-champagne to-bronze text-black shadow-glow-gold scale-105' : 'glass-pill text-warmIvory/80 hover:border-champagne'}">
+                        ${d}
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function selectDay(dayNum) {
+            selectedDay = dayNum;
+            renderDaysGrid();
+            updateSelectedDateOutput();
+        }
+
+        function updateSelectedDateOutput() {
+            const displayEl = document.getElementById('selectedDateDisplay');
+            const dateIsoInput = document.getElementById('eventDateIso');
+            
+            const currentYear = new Date().getFullYear();
+            const paddedMonth = String(selectedMonth + 1).padStart(2, '0');
+            const paddedDay = String(selectedDay).padStart(2, '0');
+            
+            // Format ISO YYYY-MM-DD per Firebase
+            const isoStr = `${currentYear}-${paddedMonth}-${paddedDay}`;
+            if (dateIsoInput) dateIsoInput.value = isoStr;
+
+            if (displayEl) {
+                displayEl.textContent = `${selectedDay} ${monthsNames[selectedMonth]}`;
+            }
+        }
+
+        function isEventEnded(ev) {
+            if (!ev) return true;
+            const now = new Date();
+            let eventEndDateTime = null;
+
+            if (ev.dateIso) {
+                const dateParts = ev.dateIso.split('-');
+                if (dateParts.length === 3) {
+                    const year = parseInt(dateParts[0], 10);
+                    const month = parseInt(dateParts[1], 10) - 1;
+                    const day = parseInt(dateParts[2], 10);
+                    eventEndDateTime = new Date(year, month, day, 23, 59, 59);
+                }
+            }
+
+            if (!eventEndDateTime) {
+                const dayLower = (ev.date || '').toLowerCase();
+                if (dayLower.includes('stasera') || dayLower.includes('oggi')) {
+                    eventEndDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+                } else {
+                    const dayMap = { 'domenica': 0, 'lunedì': 1, 'lunedi': 1, 'martedì': 2, 'martedi': 2, 'mercoledì': 3, 'mercoledi': 3, 'giovedì': 4, 'giovedi': 4, 'venerdì': 5, 'venerdi': 5, 'sabato': 6 };
+                    for (const [dName, dNum] of Object.entries(dayMap)) {
+                        if (dayLower.includes(dName)) {
+                            let diff = dNum - now.getDay();
+                            if (diff < 0) diff += 7;
+                            eventEndDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff, 23, 59, 59);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!eventEndDateTime) {
+                eventEndDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+            }
+
+            if (ev.time) {
+                const timeMatches = ev.time.match(/(\d{1,2})[:\.](\d{2})/g);
+                if (timeMatches && timeMatches.length >= 2) {
+                    const [endH, endM] = timeMatches[1].split(/:|\./).map(Number);
+                    eventEndDateTime.setHours(endH, endM, 0, 0);
+                    const [startH] = timeMatches[0].split(/:|\./).map(Number);
+                    if (endH < startH || (endH === 2 && startH > 20)) {
+                        if (now.getHours() >= startH) {
+                            eventEndDateTime.setDate(eventEndDateTime.getDate() + 1);
+                        }
+                    }
+                }
+            }
+
+            return now.getTime() > eventEndDateTime.getTime();
+        }
+
+        const initialMenuData = [
+            { id: "1", name: "Espresso El Barrio Signature", category: "caffetteria", price: "€1.50", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80", desc: "Il famosissimo espresso della casa in Viale Aldo Moro, tostatura artigianale e crema vellutata.", ingredients: "Miscela 100% Arabica selezionata", pairing: "Ideale con cornetti freschi e pasticceria della casa.", allergens: "Nessun allergene", soldOut: false },
+            { id: "2", name: "Sangría de El Barrio", category: "cocktails", price: "€7.00", alcohol: "8.5% Vol.", image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80", desc: "Cocktail tipico del mix italo-spagnolo con vino rosso, frutta fresca macerata e spezie.", ingredients: "Vino rosso, Frutta fresca, Brandy, Cannella, Soda", pairing: "Perfetto con tapas spagnole, olive e salumi.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "3", name: "Tinto de Verano con Limón", category: "cocktails", price: "€6.50", alcohol: "6.0% Vol.", image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=600&q=80", desc: "Rinfrescante bevanda spagnola a base di vino rosso e gassosa al limone.", ingredients: "Vino rosso, Soda al limone, Ghiaccio, Fetta di limone", pairing: "Ottimo per aperitivi leggeri e stuzzichini.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "4", name: "Aperitivo Italo-Spagnolo Combo", category: "aperitivi", price: "€9.00", alcohol: "Variabile", image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80", desc: "Drink a scelta (Sangria o Spritz) accompagnato da tapas miste e stuzzichini della casa.", ingredients: "Cocktail + Tapas miste (Pecorino, Jamón/Salumi, Crostini)", pairing: "La quintessenza dell'aperitivo El Barrio in Viale Aldo Moro.", allergens: "Glutine, Lattosio", soldOut: false },
+            { id: "5", name: "Vermut Artesanal con Oliva", category: "aperitivi", price: "€6.00", alcohol: "15% Vol.", image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=600&q=80", desc: "Vermut rosso artigianale servito freddo con scorza d'agrumi e oliva verde.", ingredients: "Vermut rosso, Botaniche, Scorza d'arancia, Oliva", pairing: "Accompagnato da patatine chips e olive condite.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "6", name: "Vermentino di Gallura DOCG", category: "vini", price: "€6.00 / Calice", alcohol: "13.5% Vol.", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80", desc: "Vino bianco sardo sapido e minerale con note floreali.", ingredients: "100% Uve Vermentino", pairing: "Ottimo con stuzzichini di mare e formaggi freschi.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "7", name: "Cannonau di Sardegna DOC", category: "vini", price: "€6.50 / Calice", alcohol: "14.0% Vol.", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80", desc: "Rosso sardo caldo e strutturato, perfetto per l'aperitivo serale.", ingredients: "100% Uve Cannonau", pairing: "Ideale con salumi stagionati e formaggi sardi.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "8", name: "Cava Brut Espumoso", category: "vini", price: "€7.00 / Calice", alcohol: "11.5% Vol.", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80", desc: "Bollicina spagnola frizzante, fresca e floreale.", ingredients: "Uve Macabeo, Xarel-lo, Parellada", pairing: "Perfetto per brindisi e stuzzichini salati.", allergens: "Contiene Solfiti", soldOut: false },
+            { id: "9", name: "Gin Tonica Botanica", category: "alcolici", price: "€8.50", alcohol: "40% Vol.", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80", desc: "Gin premium con acqua tonica artigianale e botaniche selezionate.", ingredients: "Gin, Tonica premium, Bacche di ginepro, Limone", pairing: "Ottimo con snack croccanti.", allergens: "Nessun allergene", soldOut: false },
+            { id: "10", name: "Licor 43 con Hielo", category: "alcolici", price: "€6.00", alcohol: "31% Vol.", image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80", desc: "Celebre liquore spagnolo a base di 43 ingredienti naturali tra agrumi e spezie.", ingredients: "Licor 43, Ghiaccio", pairing: "Eccellente a fine pasto o dopocena.", allergens: "Nessun allergene", soldOut: false },
+            { id: "11", name: "Birra San Miguel Especial 33cl", category: "birre", price: "€4.50", alcohol: "5.4% Vol.", image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=80", desc: "La celebre birra spagnola bionda, dissetante e bilanciata.", ingredients: "Acqua, Malto d'orzo, Luppolo, Mais", pairing: "Ottima con tapas, patatas bravas e snack salati.", allergens: "Glutine (Orzo)", soldOut: false },
+            { id: "12", name: "Birra Ichnusa Non Filtrata 33cl", category: "birre", price: "€4.50", alcohol: "5.0% Vol.", image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=600&q=80", desc: "La birra sarda amata da tutti, dal corpo morbido e velato.", ingredients: "Acqua, Malto d'orzo, Luppolo, Lievito", pairing: "Ideale con pizzette sfoglia e aperitivi.", allergens: "Glutine (Orzo)", soldOut: false },
+            { id: "13", name: "Agua de Valencia (Analcolica)", category: "analcolici", price: "€6.00", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=600&q=80", desc: "Mocktail vitaminico ispirato alla tradizione spagnola con spremuta d'arancia fresca e ginger ale.", ingredients: "Spremitura d'arancia, Ginger ale, Limone", pairing: "Rinfrescante e leggero per ogni momento.", allergens: "Nessun allergene", soldOut: false },
+            { id: "14", name: "Bibite & Soft Drinks (Coca, Fanta, Sprite)", category: "analcolici", price: "€3.00", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=600&q=80", desc: "Bibite in bottiglia fresca.", ingredients: "Acqua gassata, zuccheri, aromi naturali", pairing: "Ottime dissetanti.", allergens: "Nessun allergene", soldOut: false },
+            { id: "15", name: "Infuso di Erbe Spagnole & Menta", category: "tisane", price: "€3.50", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80", desc: "Tisana digestiva con menta piperita e botaniche mediterranee.", ingredients: "Menta, Verbena, Camomilla", pairing: "Perfetta dopo il caffè o a fine giornata.", allergens: "Nessuno", soldOut: false },
+            { id: "16", name: "Infuso Rilassante Manzanilla", category: "tisane", price: "€3.50", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80", desc: "Classica camomilla spagnola (Manzanilla) profumata e delicata.", ingredients: "Fiori di Manzanilla bio", pairing: "Ideale con pasticceria secca.", allergens: "Nessuno", soldOut: false },
+            { id: "17", name: "Café con Leche (Caffè Latte Spagnolo)", category: "caffetteria", price: "€2.50", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80", desc: "Caffè espresso con latte caldo montato secondo la tradizione iberica.", ingredients: "Caffè espresso, Latte fresco", pairing: "Ottimo con croissant e dolci colazione.", allergens: "Lattosio", soldOut: false },
+            { id: "18", name: "Cortado El Barrio", category: "caffetteria", price: "€2.00", alcohol: "Analcolico (0.0%)", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80", desc: "Caffè espresso macchiato con una piccola quantità di latte caldo.", ingredients: "Caffè espresso, Goccia di latte", pairing: "Il preferito per una pausa energetica veloce.", allergens: "Lattosio", soldOut: false }
+        ];
+
+        const initialEventsData = [
+            { id: "1", title: "Noche de Sangría & Live Acoustic", artist: "Duo Italo-Spagnolo (Chitarra & Voce)", date: "18 Ottobre", dateIso: "2026-10-18", time: "20:30 — 23:30", price: "Ingresso Libero", style: "Musica Acustica & Vibe Spagnola", combo: "Sangría de El Barrio + Tapas miste a €10.00", groupOffer: "Promo Tavoli Numerosi (da 6+ persone): 1 Caraffa omaggio ogni 6 persone + tagliere imperiale di tapas miste con sconto speciale.", specialOffer: "Shooting fotografico ricordo della serata incluso e calice di benvenuto omaggio per tutti gli arrivi entro le 21:00.", dressCode: "Casual Chic / Vibe Iberica", desc: "Serata a tema mix italo-spagnolo con musica dal vivo in Viale Aldo Moro e caraffa di sangria artigianale.", badge: "Consigliato" },
+            { id: "2", title: "Tapas & Spanish Beats", artist: "DJ Resident & Guest", date: "23 Ottobre", dateIso: "2026-10-23", time: "21:30 — 02:00", price: "Consumazione Obbligatoria", style: "Deep House & Latin Grooves", combo: "Cocktail a scelta + Tapas a €12.00", groupOffer: "Promo Gruppi / Compleanni (da 6+ persone): Tavolo riservato in area privè, bottiglia di bollicine Cava omaggio e pacchetto drink ridotto.", specialOffer: "Open bar di stuzzichini caldi e patatas bravas serviti a centro tavolo dalle 22:30 fino a fine serata.", dressCode: "Trendy / Nightlife", desc: "Dopocena movimentato con selezioni musicali di tendenza e cocktail d'autore fino a tarda notte.", badge: "Hot Night" },
+            { id: "3", title: "Aperitivo Lirico & Vermut", artist: "Live Sax & Aperitivo", date: "24 Ottobre", dateIso: "2026-10-24", time: "20:00 — 01:00", price: "Ingresso Libero con Prenotazione", style: "Smooth Jazz & Lounge", combo: "Vermut Artesanal + Tagliere a €11.00", groupOffer: "Promo Tavoli Numerosi (da 5+ persone): Sconto del 15% sui taglieri gourmet e caraffa di Vermut o vino della casa a prezzo agevolato.", specialOffer: "Degustazione guidata gratuita di olive artigianali e formaggi sardi/iberici in abbinamento al Vermut.", dressCode: "Elegante / Smart Casual", desc: "Sax dal vivo e degustazione di vermut artigianali e vini selezionati nel cuore di Olbia.", badge: "Live Stage" },
+            { id: "4", title: "DJ Set Live Night", artist: "DJ Antony", date: "25 Ottobre", dateIso: "2026-10-25", time: "20:00 — 00:00", price: "Consumazione Obbligatoria", style: "DJ Set Live & Commercial House", combo: "Aperitivo speciale italo-spagnolo con drink e stuzzichini caldi inclusi", groupOffer: "Promo Tavoli Numerosi (da 6+ persone): 1 drink extra in omaggio per ogni componente del gruppo e servizio bottiglieria agevolato.", specialOffer: "Gadget luminescenti ed effetti speciali per chiudere il weekend nel vivo della festa.", dressCode: "Free Style / Casual", desc: "Musica dal vivo e dj set scatenato con DJ Antony dalle 20:00 a mezzanotte per chiudere il weekend in allegria.", badge: "Special Guest" }
+        ];
+
+        window.initCloudAdmin = function() {
+            initDateWidget();
+
+            window.fsOnSnapshot(window.fsCollection(window.db, "menu"), (snapshot) => {
+                localMenuData = [];
+                snapshot.forEach((doc) => {
+                    localMenuData.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (localMenuData.length === 0) {
+                    initialMenuData.forEach(item => {
+                        window.fsSetDoc(window.fsDoc(window.db, "menu", item.id), item);
+                    });
+                } else {
+                    renderAdminMenuList();
+                    populateHighlightDropdown();
+                    populateTopMustDropdowns();
+                }
+            });
+
+            window.fsOnSnapshot(window.fsCollection(window.db, "events"), (snapshot) => {
+                localEventsData = [];
+                snapshot.forEach((doc) => {
+                    localEventsData.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (localEventsData.length === 0) {
+                    initialEventsData.forEach(ev => {
+                        window.fsSetDoc(window.fsDoc(window.db, "events", ev.id), ev);
+                    });
+                } else {
+                    renderAdminEventsList();
+                    renderAdminHistoryEventsList();
+                }
+            });
+
+            window.fsOnSnapshot(window.fsDoc(window.db, "settings", "storeStatus"), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('overrideClosedToggle').checked = !!data.overrideClosed;
+                    document.getElementById('overrideMsgInput').value = data.overrideMsg || 'Chiusura Straordinaria / Ferie';
+                }
+            });
+        };
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('inputEmail').value;
+            const pass = document.getElementById('inputPass').value;
+            const errEl = document.getElementById('loginError');
+
+            try {
+                await window.signInWithEmailAndPassword(window.auth, email, pass);
+                errEl.classList.add('hidden');
+            } catch (error) {
+                console.error("Errore di login:", error);
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            window.signOut(window.auth);
+        }
+
+        function togglePassVisibility(inputId, iconId) {
+            const passInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            } else {
+                passInput.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function switchAdminTab(tab) {
+            const tabs = ['menu', 'events', 'history', 'showcase', 'status', 'security'];
+            tabs.forEach(t => {
+                const view = document.getElementById(`adminView${t.charAt(0).toUpperCase() + t.slice(1)}`);
+                const btn = document.getElementById(`adminTabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+                if (view) view.classList.add('hidden');
+                if (btn) btn.className = "px-5 py-2.5 rounded-full text-xs font-bold glass-pill text-warmIvory/80 hover:text-champagne whitespace-nowrap transition-all";
+            });
+
+            const activeView = document.getElementById(`adminView${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            const activeBtn = document.getElementById(`adminTabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (activeView) activeView.classList.remove('hidden');
+            if (activeBtn) activeBtn.className = "px-5 py-2.5 rounded-full text-xs font-bold bg-champagne text-black shadow-glow-gold whitespace-nowrap transition-all";
+        }
+
+        async function saveMenuItem(e) {
+            e.preventDefault();
+            
+            const existingId = document.getElementById('menuItemId').value;
+            const idVal = existingId && existingId.trim() !== "" ? existingId : String(Date.now());
+            const urlVal = document.getElementById('menuImage').value;
+            const soldOutVal = document.getElementById('menuSoldOut').value === 'true';
+
+            let finalImage = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80";
+            if (currentUploadedBase64 !== "") {
+                finalImage = currentUploadedBase64;
+            } else if (urlVal !== "") {
+                finalImage = urlVal;
+            }
+
+            const newItem = {
+                id: String(idVal),
+                name: document.getElementById('menuName').value,
+                category: document.getElementById('menuCategory').value,
+                price: document.getElementById('menuPrice').value,
+                alcohol: document.getElementById('menuAlcohol').value || '0.0% Vol.',
+                image: finalImage,
+                desc: document.getElementById('menuDesc').value,
+                ingredients: document.getElementById('menuIngredients').value,
+                pairing: document.getElementById('menuPairing').value,
+                allergens: document.getElementById('menuAllergens').value || 'Nessuno',
+                soldOut: soldOutVal
+            };
+
+            try {
+                await window.fsSetDoc(window.fsDoc(window.db, "menu", String(idVal)), newItem);
+                resetMenuForm();
+                alert('Prodotto salvato sul Cloud con successo!');
+            } catch (error) {
+                console.error("Errore durante il salvataggio del prodotto:", error);
+                alert("Errore durante il salvataggio. Controlla la connessione.");
+            }
+        }
+
+        async function toggleSoldOut(id) {
+            const item = localMenuData.find(i => String(i.id) === String(id));
+            if (!item) return;
+
+            const newSoldOutStatus = !item.soldOut;
+            const updatedItem = { ...item, soldOut: newSoldOutStatus };
+
+            try {
+                await window.fsSetDoc(window.fsDoc(window.db, "menu", String(id)), updatedItem);
+            } catch (error) {
+                console.error("Errore aggiornamento Sold Out:", error);
+            }
+        }
+
+        function duplicateMenuItem(id) {
+            const item = localMenuData.find(i => String(i.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('menuItemId').value = "";
+            document.getElementById('menuName').value = item.name + " (Copia)";
+            document.getElementById('menuCategory').value = item.category;
+            document.getElementById('menuPrice').value = item.price;
+            document.getElementById('menuAlcohol').value = item.alcohol;
+            document.getElementById('menuDesc').value = item.desc;
+            document.getElementById('menuIngredients').value = item.ingredients;
+            document.getElementById('menuPairing').value = item.pairing;
+            document.getElementById('menuAllergens').value = item.allergens;
+            document.getElementById('menuSoldOut').value = item.soldOut ? 'true' : 'false';
+
+            if (item.image && item.image.startsWith('data:image')) {
+                currentUploadedBase64 = item.image;
+                document.getElementById('menuImage').value = "";
+                showPreview(item.image);
+            } else {
+                currentUploadedBase64 = "";
+                document.getElementById('menuImage').value = item.image || "";
+                if (item.image) showPreview(item.image);
+                else hidePreview();
+            }
+
+            document.getElementById('formMenuTitle').textContent = "Duplica Prodotto (Crea Nuovo)";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAdminMenuList() {
+            const container = document.getElementById('adminMenuList');
+            const badge = document.getElementById('menuCountBadge');
+            if (!container) return;
+
+            badge.textContent = `${localMenuData.length} Prodotti`;
+
+            container.innerHTML = localMenuData.map((item) => `
+                <div class="glass-panel p-4 rounded-2xl border border-champagne/20 flex items-center justify-between gap-4 hover:border-champagne/40 transition-all ${item.soldOut ? 'opacity-60 border-red-500/40' : ''}">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80'}" class="w-12 h-12 rounded-xl object-cover border border-champagne/30 shrink-0">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-serif font-bold text-warmIvory text-sm">${item.name}</h4>
+                                ${item.soldOut ? '<span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 font-bold text-[9px] uppercase border border-red-500/40">Esaurito</span>' : ''}
+                            </div>
+                            <p class="text-[11px] text-champagne">${item.category.toUpperCase()} • <span class="text-warmIvory/80 font-bold">${item.price}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleSoldOut('${item.id}')" title="Segna come Esaurito / Disponibile" class="px-2.5 py-1.5 rounded-lg text-[10px] font-bold ${item.soldOut ? 'bg-red-500 text-white' : 'glass-pill text-champagne hover:bg-champagne hover:text-black'} transition-all">
+                            <i class="fa-solid fa-ban"></i> ${item.soldOut ? 'Esaurito' : 'Disponibile'}
+                        </button>
+                        <button onclick="duplicateMenuItem('${item.id}')" title="Duplica Prodotto" class="w-8 h-8 rounded-full glass-pill flex items-center justify-center text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all">
+                            <i class="fa-solid fa-copy text-xs"></i>
+                        </button>
+                        <button onclick="editMenuItem('${item.id}')" title="Modifica" class="w-8 h-8 rounded-full glass-pill flex items-center justify-center text-champagne hover:bg-champagne hover:text-black transition-all">
+                            <i class="fa-solid fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="deleteMenuItem('${item.id}')" title="Elimina" class="w-8 h-8 rounded-full glass-pill flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-trash text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editMenuItem(id) {
+            const item = localMenuData.find(i => String(i.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('menuItemId').value = item.id;
+            document.getElementById('menuName').value = item.name;
+            document.getElementById('menuCategory').value = item.category;
+            document.getElementById('menuPrice').value = item.price;
+            document.getElementById('menuAlcohol').value = item.alcohol;
+            document.getElementById('menuDesc').value = item.desc;
+            document.getElementById('menuIngredients').value = item.ingredients;
+            document.getElementById('menuPairing').value = item.pairing;
+            document.getElementById('menuAllergens').value = item.allergens;
+            document.getElementById('menuSoldOut').value = item.soldOut ? 'true' : 'false';
+
+            if (item.image && item.image.startsWith('data:image')) {
+                currentUploadedBase64 = item.image;
+                document.getElementById('menuImage').value = "";
+                showPreview(item.image);
+            } else {
+                currentUploadedBase64 = "";
+                document.getElementById('menuImage').value = item.image || "";
+                if (item.image) showPreview(item.image);
+                else hidePreview();
+            }
+
+            document.getElementById('formMenuTitle').textContent = "Modifica Prodotto";
+        }
+
+        async function deleteMenuItem(id) {
+            if (confirm('Sei sicuro di voler eliminare questo prodotto dal Cloud?')) {
+                await window.fsDeleteDoc(window.fsDoc(window.db, "menu", String(id)));
+            }
+        }
+
+        function resetMenuForm() {
+            document.getElementById('menuItemId').value = '';
+            document.getElementById('menuName').value = '';
+            document.getElementById('menuPrice').value = '';
+            document.getElementById('menuAlcohol').value = '';
+            document.getElementById('menuImage').value = '';
+            document.getElementById('menuDesc').value = '';
+            document.getElementById('menuIngredients').value = '';
+            document.getElementById('menuPairing').value = '';
+            document.getElementById('menuAllergens').value = '';
+            document.getElementById('menuSoldOut').value = 'false';
+            clearImageUpload();
+            document.getElementById('formMenuTitle').textContent = "Aggiungi Nuovo Prodotto";
+        }
+
+        async function saveEventItem(e) {
+            e.preventDefault();
+            const idVal = document.getElementById('eventId').value || String(Date.now());
+            const dateIsoVal = document.getElementById('eventDateIso').value; 
+
+            // Formattazione stringa leggibile (es. "18 Ottobre")
+            const formattedDateStr = `${selectedDay} ${monthsNames[selectedMonth]}`;
+
+            const newEvent = {
+                id: String(idVal),
+                title: document.getElementById('eventTitle').value,
+                artist: document.getElementById('eventArtist').value,
+                badge: document.getElementById('eventBadge').value || 'Live Stage',
+                date: formattedDateStr,
+                dateIso: dateIsoVal,
+                time: document.getElementById('eventTime').value,
+                price: document.getElementById('eventPrice').value,
+                style: document.getElementById('eventStyle').value,
+                dressCode: document.getElementById('eventDressCode').value,
+                combo: document.getElementById('eventCombo').value,
+                groupOffer: document.getElementById('eventGroupOffer').value,
+                specialOffer: document.getElementById('eventSpecialOffer').value,
+                desc: document.getElementById('eventDesc').value
+            };
+
+            await window.fsSetDoc(window.fsDoc(window.db, "events", String(idVal)), newEvent);
+            resetEventForm();
+            alert('Evento salvato sul Cloud con successo!');
+        }
+
+        function renderAdminEventsList() {
+            const container = document.getElementById('adminEventsList');
+            const badge = document.getElementById('eventsCountBadge');
+            if (!container) return;
+
+            const activeEvents = localEventsData.filter(ev => !isEventEnded(ev));
+            badge.textContent = `${activeEvents.length} Eventi Attivi`;
+
+            if (activeEvents.length === 0) {
+                container.innerHTML = `<div class="p-4 rounded-2xl border border-champagne/15 text-center text-xs text-warmIvory/40">Nessun evento attivo in programmazione.</div>`;
+                return;
+            }
+
+            container.innerHTML = activeEvents.map((ev) => `
+                <div class="glass-panel p-4 rounded-2xl border border-champagne/20 space-y-2 hover:border-champagne/40 transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-0.5 rounded-full bg-champagne/20 text-champagne text-[10px] font-bold">${ev.date}</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="editEventItem('${ev.id}')" class="w-7 h-7 rounded-full glass-pill flex items-center justify-center text-champagne hover:bg-champagne hover:text-black transition-all">
+                                <i class="fa-solid fa-pen text-xs"></i>
+                            </button>
+                            <button onclick="deleteEventItem('${ev.id}')" class="w-7 h-7 rounded-full glass-pill flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white transition-all">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h4 class="font-serif font-bold text-warmIvory text-base">${ev.title}</h4>
+                    <p class="text-xs text-champagne font-semibold">${ev.artist} • <span class="text-warmIvory/70">${ev.time}</span></p>
+                </div>
+            `).join('');
+        }
+
+        function renderAdminHistoryEventsList() {
+            const container = document.getElementById('adminHistoryEventsList');
+            const badge = document.getElementById('historyEventsCountBadge');
+            if (!container) return;
+
+            const pastEvents = localEventsData.filter(ev => isEventEnded(ev));
+            badge.textContent = `${pastEvents.length} Eventi nello Storico`;
+
+            if (pastEvents.length === 0) {
+                container.innerHTML = `<div class="col-span-full p-8 rounded-2xl border border-champagne/15 text-center text-xs text-warmIvory/40">Nessun evento passato nello storico.</div>`;
+                return;
+            }
+
+            container.innerHTML = pastEvents.map((ev) => `
+                <div class="glass-panel p-4 rounded-2xl border border-champagne/15 opacity-75 space-y-2 hover:opacity-100 transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-0.5 rounded-full bg-red-950/60 text-red-300 border border-red-500/30 text-[10px] font-bold">Terminato • ${ev.date}</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="editEventItem('${ev.id}')" title="Riprogramma / Modifica" class="w-7 h-7 rounded-full glass-pill flex items-center justify-center text-champagne hover:bg-champagne hover:text-black transition-all">
+                                <i class="fa-solid fa-pen text-xs"></i>
+                            </button>
+                            <button onclick="deleteEventItem('${ev.id}')" title="Elimina dallo Storico" class="w-7 h-7 rounded-full glass-pill flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white transition-all">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h4 class="font-serif font-bold text-warmIvory text-base">${ev.title}</h4>
+                    <p class="text-xs text-champagne font-semibold">${ev.artist} • <span class="text-warmIvory/70">${ev.time}</span></p>
+                </div>
+            `).join('');
+        }
+
+        function editEventItem(id) {
+            const ev = localEventsData.find(i => String(i.id) === String(id));
+            if (!ev) return;
+
+            switchAdminTab('events');
+
+            document.getElementById('eventId').value = ev.id;
+            document.getElementById('eventTitle').value = ev.title;
+            document.getElementById('eventArtist').value = ev.artist;
+            document.getElementById('eventBadge').value = ev.badge;
+            
+            // Imposta il widget data in base all'evento salvato
+            if (ev.dateIso) {
+                const parts = ev.dateIso.split('-');
+                if (parts.length === 3) {
+                    const m = parseInt(parts[1], 10) - 1;
+                    const d = parseInt(parts[2], 10);
+                    initDateWidget(m, d);
+                }
+            }
+
+            document.getElementById('eventTime').value = ev.time;
+            document.getElementById('eventPrice').value = ev.price;
+            document.getElementById('eventStyle').value = ev.style;
+            document.getElementById('eventDressCode').value = ev.dressCode;
+            document.getElementById('eventCombo').value = ev.combo;
+            document.getElementById('eventGroupOffer').value = ev.groupOffer;
+            document.getElementById('eventSpecialOffer').value = ev.specialOffer;
+            document.getElementById('eventDesc').value = ev.desc;
+
+            document.getElementById('formEventTitle').textContent = "Modifica / Riprogramma Evento";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deleteEventItem(id) {
+            if (confirm('Sei sicuro di voler eliminare questo evento dal Cloud?')) {
+                await window.fsDeleteDoc(window.fsDoc(window.db, "events", String(id)));
+            }
+        }
+
+        function resetEventForm() {
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventArtist').value = '';
+            document.getElementById('eventBadge').value = '';
+            initDateWidget(new Date().getMonth(), new Date().getDate());
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventPrice').value = '';
+            document.getElementById('eventStyle').value = '';
+            document.getElementById('eventDressCode').value = '';
+            document.getElementById('eventCombo').value = '';
+            document.getElementById('eventGroupOffer').value = '';
+            document.getElementById('eventSpecialOffer').value = '';
+            document.getElementById('eventDesc').value = '';
+            document.getElementById('formEventTitle').textContent = "Aggiungi Nuovo Evento";
+        }
+
+        async function populateHighlightDropdown() {
+            const select = document.getElementById('highlightSelect');
+            if (!select) return;
+
+            const docSnap = await window.fsGetDoc(window.fsDoc(window.db, "settings", "highlight"));
+            let currentHighlightId = "1";
+            if (docSnap.exists()) {
+                currentHighlightId = docSnap.data().productId || "1";
+            }
+
+            select.innerHTML = localMenuData.map(item => `
+                <option value="${item.id}" ${String(item.id) === String(currentHighlightId) ? 'selected' : ''}>
+                    ${item.name} (${item.category.toUpperCase()} - ${item.price})
+                </option>
+            `).join('');
+        }
+
+        async function saveHighlightedProduct(e) {
+            e.preventDefault();
+            const selectId = document.getElementById('highlightSelect').value;
+            await window.fsSetDoc(window.fsDoc(window.db, "settings", "highlight"), { productId: String(selectId) });
+
+            const msgEl = document.getElementById('highlightSaveMsg');
+            msgEl.classList.remove('hidden');
+            setTimeout(() => msgEl.classList.add('hidden'), 3000);
+        }
+
+        async function populateTopMustDropdowns() {
+            const sel1 = document.getElementById('topMust1');
+            const sel2 = document.getElementById('topMust2');
+            const sel3 = document.getElementById('topMust3');
+            if (!sel1 || !sel2 || !sel3) return;
+
+            const docSnap = await window.fsGetDoc(window.fsDoc(window.db, "settings", "topMust"));
+            let currentIds = ["1", "2", "3"];
+            if (docSnap.exists() && docSnap.data().productIds) {
+                currentIds = docSnap.data().productIds;
+            }
+
+            const optionsHtml = localMenuData.map(item => `
+                <option value="${item.id}">${item.name} (${item.category.toUpperCase()} - ${item.price})</option>
+            `).join('');
+
+            sel1.innerHTML = optionsHtml;
+            sel2.innerHTML = optionsHtml;
+            sel3.innerHTML = optionsHtml;
+
+            sel1.value = currentIds[0] || localMenuData[0]?.id;
+            sel2.value = currentIds[1] || localMenuData[1]?.id;
+            sel3.value = currentIds[2] || localMenuData[2]?.id;
+        }
+
+        async function saveTopMustProducts(e) {
+            e.preventDefault();
+            const id1 = document.getElementById('topMust1').value;
+            const id2 = document.getElementById('topMust2').value;
+            const id3 = document.getElementById('topMust3').value;
+
+            try {
+                await window.fsSetDoc(window.fsDoc(window.db, "settings", "topMust"), {
+                    productIds: [String(id1), String(id2), String(id3)]
+                }, { merge: true });
+
+                const msgEl = document.getElementById('topMustSaveMsg');
+                msgEl.classList.remove('hidden');
+                setTimeout(() => msgEl.classList.add('hidden'), 3000);
+            } catch (error) {
+                console.error("Errore salvataggio topMust:", error);
+                alert("Errore durante il salvataggio dei Must.");
+            }
+        }
+
+        async function saveStoreStatus(e) {
+            e.preventDefault();
+            const isClosed = document.getElementById('overrideClosedToggle').checked;
+            const msg = document.getElementById('overrideMsgInput').value || 'Chiusura Straordinaria / Ferie';
+            
+            await window.fsSetDoc(window.fsDoc(window.db, "settings", "storeStatus"), {
+                overrideClosed: isClosed,
+                overrideMsg: msg
+            });
+
+            const msgEl = document.getElementById('statusSaveMsg');
+            msgEl.classList.remove('hidden');
+            setTimeout(() => msgEl.classList.add('hidden'), 3000);
+        }
+
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('newPassInput').value;
+            const msgEl = document.getElementById('passChangeMsg');
+
+            msgEl.className = "text-xs font-bold text-center py-2 rounded-xl border";
+
+            if (newPass.length < 6) {
+                msgEl.textContent = "La nuova password deve contenere almeno 6 caratteri.";
+                msgEl.classList.add('bg-amber-950/80', 'text-amber-300', 'border-amber-500/40');
+                msgEl.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const user = window.auth.currentUser;
+                await window.updatePassword(user, newPass);
+                msgEl.textContent = "Password aggiornata con successo su Firebase!";
+                msgEl.classList.add('bg-emerald-950/80', 'text-emerald-300', 'border-emerald-500/40');
+                msgEl.classList.remove('hidden');
+                document.getElementById('newPassInput').value = '';
+            } catch (error) {
+                console.error("Errore cambio password:", error);
+                msgEl.textContent = "Errore: effettua nuovamente il login prima di cambiare la password.";
+                msgEl.classList.add('bg-red-950/80', 'text-red-300', 'border-red-500/40');
+                msgEl.classList.remove('hidden');
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800;
+                    const MAX_HEIGHT = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    currentUploadedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    document.getElementById('menuImage').value = "";
+                    showPreview(currentUploadedBase64);
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateImagePreview(url) {
+            if (url) {
+                currentUploadedBase64 = "";
+                showPreview(url);
+            } else {
+                hidePreview();
+            }
+        }
+
+        function showPreview(src) {
+            const previewContainer = document.getElementById('previewContainer');
+            const imgPreview = document.getElementById('imgPreview');
+            imgPreview.src = src;
+            previewContainer.classList.remove('hidden');
+        }
+
+        function hidePreview() {
+            document.getElementById('previewContainer').classList.add('hidden');
+            document.getElementById('imgPreview').src = "";
+        }
+
+        function clearImageUpload() {
+            currentUploadedBase64 = "";
+            document.getElementById('menuFileUpload').value = "";
+            document.getElementById('menuImage').value = "";
+            hidePreview();
+        }
+    </script>
+</body>
+</html>

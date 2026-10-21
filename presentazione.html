@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080a0f" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Proposta Commerciale — El Barrio Caffè Olbia</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #f8f6f0;
+        --muted: #cbdfd8;
+        --gold: #d4af37;
+        --gold-light: #f3e5ab;
+        --deep: #080a0f;
+        --petrol: #13231e;
+        --line: rgba(212, 175, 55, 0.22);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-snap-type: y mandatory; background: var(--deep); scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--deep);
+        font-family: 'Plus Jakarta Sans', "Aptos", "Segoe UI", sans-serif;
+      }
+
+      .slide {
+        position: relative;
+        display: grid;
+        width: 100%;
+        min-height: 100svh;
+        grid-template-rows: auto 1fr auto;
+        gap: clamp(18px, 2.8vh, 30px);
+        overflow: hidden;
+        padding: clamp(26px, 5vw, 72px);
+        isolation: isolate;
+        scroll-snap-align: start;
+        background:
+          radial-gradient(ellipse at 88% 14%, rgba(212, 175, 55, 0.18), transparent 34%),
+          radial-gradient(ellipse at 4% 100%, rgba(13, 35, 30, 0.6), transparent 42%),
+          linear-gradient(145deg, #13231e 0%, #0d1815 44%, var(--deep) 100%);
+      }
+
+      .slide:nth-of-type(2n) {
+        background:
+          radial-gradient(ellipse at 88% 14%, rgba(184, 134, 11, 0.15), transparent 35%),
+          radial-gradient(ellipse at 4% 100%, rgba(13, 24, 21, 0.5), transparent 42%),
+          linear-gradient(145deg, #0d1815 0%, #13231e 48%, #080a0f 100%);
+      }
+
+      .topbar,
+      .footbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0;
+        font-size: clamp(15px, 1.5vw, 20px);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .brand-logo {
+        display: flex;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        margin-right: 10px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        background: #13231e;
+        color: #d4af37;
+        font-family: 'Playfair Display', serif;
+        font-size: 17px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      }
+
+      .brand span { color: var(--gold); }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 17px;
+        padding: 8px 13px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 999px;
+        background: rgba(19, 35, 30, 0.7);
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .kicker::before {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold-light);
+        box-shadow: 0 0 12px rgba(243, 229, 171, 0.65);
+        content: "";
+      }
+
+      h1, h2, p { margin-top: 0; }
+
+      h1 {
+        max-width: 12ch;
+        margin-bottom: 18px;
+        font-size: clamp(38px, 6vw, 82px);
+        line-height: 0.97;
+        letter-spacing: -0.055em;
+        font-family: 'Playfair Display', serif;
+      }
+
+      h2 {
+        max-width: 13ch;
+        margin-bottom: 18px;
+        font-size: clamp(30px, 4.2vw, 54px);
+        line-height: 1;
+        letter-spacing: -0.045em;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .lead {
+        max-width: 48ch;
+        color: var(--muted);
+        font-size: clamp(16px, 1.7vw, 22px);
+        line-height: 1.6;
+      }
+
+      .footbar {
+        position: relative;
+        justify-content: flex-end;
+        gap: 7px;
+        min-height: 28px;
+        padding-top: 13px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .footbar::before {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: var(--progress, 12.5%);
+        height: 2px;
+        background: linear-gradient(90deg, #d4af37, #f3e5ab);
+        content: "";
+      }
+
+      .footbar span:first-child { color: var(--gold); }
+
+      .cover-content,
+      .showcase-content {
+        display: grid;
+        min-height: 0;
+        grid-template-columns: 0.82fr 1.18fr;
+        align-items: center;
+        gap: clamp(30px, 6.5vw, 96px);
+      }
+
+      .capture {
+        position: relative;
+        min-height: 340px;
+        height: min(67vh, 650px);
+        overflow: hidden;
+        border: 1px solid rgba(212, 175, 55, 0.38);
+        border-radius: 24px;
+        background: #0d1815;
+        box-shadow: 0 32px 90px rgba(0, 10, 22, 0.44);
+        isolation: isolate;
+      }
+
+      .capture-hint {
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        bottom: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border: 2px solid rgba(248, 246, 240, 0.9);
+        border-radius: 999px;
+        color: #080a0f;
+        background: var(--gold);
+        font-size: 12px;
+        font-weight: 900;
+        pointer-events: none;
+        transform: translateX(-50%);
+      }
+
+      .slide:nth-of-type(2) { --progress: 25%; }
+      .slide:nth-of-type(3) { --progress: 37.5%; }
+      .slide:nth-of-type(4) { --progress: 50%; }
+      .slide:nth-of-type(5) { --progress: 62.5%; }
+      .slide:nth-of-type(6) { --progress: 75%; }
+      .slide:nth-of-type(7) { --progress: 87.5%; }
+      .slide:nth-of-type(8) { --progress: 100%; }
+
+      .capture iframe,
+      .capture img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        object-fit: cover;
+        object-position: top center;
+        background: #0d1815;
+      }
+
+      .capture iframe {
+        width: 200%;
+        height: 200%;
+        transform: scale(0.5);
+        transform-origin: top left;
+      }
+
+      .mobile-showcase {
+        display: grid;
+        min-height: 0;
+        grid-template-columns: 1fr 0.72fr;
+        align-items: center;
+        gap: clamp(32px, 8vw, 110px);
+      }
+
+      .phone-frame {
+        position: relative;
+        width: 300px;
+        height: 644px;
+        padding: 11px;
+        overflow: hidden;
+        border: 2px solid rgba(212, 175, 55, 0.68);
+        border-radius: 40px;
+        background: linear-gradient(145deg, #13231e, #080a0f);
+        box-shadow: 0 34px 90px rgba(0, 10, 22, 0.58);
+      }
+
+      .phone-screen {
+        position: relative;
+        width: 274px;
+        height: 618px;
+        overflow: hidden;
+        border-radius: 29px;
+        background: #0d1815;
+      }
+
+      .phone-screen iframe {
+        display: block;
+        width: 390px;
+        height: 880px;
+        border: 0;
+        transform: scale(0.70256);
+        transform-origin: top left;
+        background: #0d1815;
+      }
+
+      .feature-points {
+        display: grid;
+        gap: 10px;
+        margin: 24px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .feature-points li {
+        position: relative;
+        padding: 11px 14px 11px 33px;
+        border: 1px solid rgba(212, 175, 55, 0.18);
+        border-radius: 12px;
+        color: var(--muted);
+        font-size: 14.5px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .feature-points li::before {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--gold-light);
+        content: "";
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      .feature-points b { color: #f8f6f0; }
+
+      .note {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 24px;
+        padding: 14px 16px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 14px;
+        color: #f3e5ab;
+        background: rgba(19, 35, 30, 0.5);
+        font-size: 14px;
+      }
+
+      .benefits {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .benefit {
+        padding: 22px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 18px;
+        background: rgba(19, 35, 30, 0.65);
+        text-align: left;
+      }
+
+      .benefit b { display: block; margin-bottom: 10px; color: var(--gold-light); font-size: 13px; letter-spacing: 0.1em; }
+      .benefit h3 { margin: 0 0 8px; font-size: 19px; font-family: 'Playfair Display', serif; color: #f8f6f0; }
+      .benefit p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+      .seo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .seo-grid .benefit ul { margin: 0; padding-left: 16px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+
+    <!-- SLIDE 1: COPERTINA -->
+    <section class="slide cover">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="cover-content">
+        <div>
+          <p class="kicker">Proposta di Sviluppo Digitale</p>
+          <h1>Un punto di riferimento in Viale Aldo Moro merita una presenza online solida.</h1>
+          <p class="lead">Presentiamo un'infrastruttura digitale professionale, progettata per valorizzare l'identità del locale, semplificare la gestione quotidiana e attrarre nuova clientela a Olbia con efficacia e concretezza.</p>
+        </div>
+        <div class="capture">
+          <div class="capture-hint">ANTEPRIMA LIVE</div>
+          <iframe data-src="./index.html" title="Homepage"></iframe>
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 1 di 8"><span>01</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 2: MENU DIGITALE -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="showcase-content">
+        <div>
+          <p class="kicker">01 · Carta & Menu Cloud</p>
+          <h2>Menu digitale interattivo: chiarezza per il cliente, efficienza per lo staff.</h2>
+          <p class="lead">Un catalogo digitale raffinato e sempre aggiornato, pensato per presentare cocktail, vini e tapas esaltando la qualità dell'offerta e guidando le scelte al tavolo.</p>
+          <ul class="feature-points">
+            <li><b>Aggiornamenti istantanei:</b> Modificate prezzi o disponibilità in tempo reale senza costi di stampa.</li>
+            <li><b>Gestione prodotti esauriti:</b> Segnalate subito le variazioni per ottimizzare il servizio.</li>
+          </ul>
+        </div>
+        <div class="capture">
+          <div class="capture-hint">TAB CARTA & MENU</div>
+          <img src="./menu.png" alt="Tab Carta e Menu" />
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 2 di 8"><span>02</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 3: EVENTI & LIVE -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="showcase-content">
+        <div>
+          <p class="kicker">02 · Intrattenimento & Live Stage</p>
+          <h2>Valorizzazione degli eventi: comunicare la programmazione con stile.</h2>
+          <p class="lead">Le serate musicali, i concerti acustici e i DJ set rappresentano un forte elemento di attrazione. Una sezione dedicata permette di pianificare e promuovere ogni appuntamento.</p>
+          <ul class="feature-points">
+            <li><b>Calendario eventi:</b> Informazioni chiare su orari, ospiti e formule dedicate alla clientela.</li>
+            <li><b>Visibilità mirata:</b> Uno strumento ideale per fidelizzare il pubblico e stimolare la partecipazione.</li>
+          </ul>
+        </div>
+        <div class="capture">
+          <div class="capture-hint">TAB EVENTI & LIVE</div>
+          <img src="./eventi.png" alt="Tab Eventi e Live" />
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 3 di 8"><span>03</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 4: ESPERIENZA MOBILE -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="mobile-showcase">
+        <div>
+          <p class="kicker">03 · Ottimizzazione Mobile</p>
+          <h2>Accessibilità immediata da smartphone per chi vive la città.</h2>
+          <p class="lead">La maggior parte delle ricerche e delle decisioni matura in mobilità. Il sito offre un'esperienza di navigazione fluida, rapida e intuitiva su qualsiasi dispositivo.</p>
+          <ul class="feature-points">
+            <li><b>Design responsive:</b> Contenuti progettati per una lettura immediata e confortevole.</li>
+            <li><b>Contatti rapidi:</b> Accesso diretto a indicazioni stradali e recapiti utili.</li>
+          </ul>
+          <div class="note"><i>💡</i><span>Un supporto concreto per intercettare i clienti presenti nelle vicinanze.</span></div>
+        </div>
+        <div class="phone-stage">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <iframe data-src="./index.html" title="Mobile View"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 4 di 8"><span>04</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 5: ORGANIZZA & PRENOTA -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="showcase-content">
+        <div>
+          <p class="kicker">04 · Gestione Prenotazioni</p>
+          <h2>Richieste di tavoli ed eventi incanalate direttamente su WhatsApp.</h2>
+          <p class="lead">Un sistema di contatto strutturato che riduce le interruzioni telefoniche durante i momenti di maggiore affluenza, raccogliendo le richieste in modo ordinato.</p>
+          <ul class="feature-points">
+            <li><b>Informazioni dettagliate:</b> Orario, numero di ospiti e specifiche note raccolte in anticipo.</li>
+            <li><b>Canale diretto:</b> Comunicazione pulita e senza commissioni di intermediazione.</li>
+          </ul>
+        </div>
+        <div class="capture">
+          <div class="capture-hint">TAB ORGANIZZA & PRENOTA</div>
+          <img src="./organizza.png" alt="Tab Organizza e Prenota" />
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 5 di 8"><span>05</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 6: PANNELLO ADMIN -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="showcase-content">
+        <div>
+          <p class="kicker">05 · Autonomia Operativa</p>
+          <h2>Pannello di controllo riservato, protetto da autenticazione Google Firebase.</h2>
+          <p class="lead">Un'area amministrativa sicura che consente alla proprietà di gestire in piena autonomia i contenuti del sito senza dipendenza da interventi esterni.</p>
+          <ul class="feature-points">
+            <li><b>Massimi standard di sicurezza:</b> Accesso protetto e riservato esclusivamente agli autorizzati.</li>
+            <li><b>Rapidità d'uso:</b> Modifiche pubblicate in pochi secondi, direttamente da qualsiasi dispositivo.</li>
+          </ul>
+        </div>
+        <div class="capture">
+          <div class="capture-hint">PANNELLO ADMIN</div>
+          <iframe data-src="./admin.html" title="Pannello Admin"></iframe>
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 6 di 8"><span>06</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 7: SEO E GOOGLE -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div class="seo-content" style="display:grid; gap:16px;">
+        <div>
+          <p class="kicker">06 · Visibilità Territoriale</p>
+          <h2>Posizionamento mirato per intercettare la domanda locale a Olbia.</h2>
+          <p class="lead">Ottimizzazione orientata ai motori di ricerca e alle mappe per garantire che il locale emerga chiaramente quando residenti e visitatori cercano qualità in Viale Aldo Moro.</p>
+        </div>
+        <div class="seo-grid">
+          <article class="benefit">
+            <b>01 · MAPPE & LOCAL</b>
+            <h3>Rintracciabilità</h3>
+            <p>Ottimizzazione per Google Maps e ricerche geografiche mirate.</p>
+          </article>
+          <article class="benefit">
+            <b>02 · IMMAGINE</b>
+            <h3>Reputazione solida</h3>
+            <ul>
+              <li>Anteprime professionali per la condivisione social e chat.</li>
+              <li>Standard tecnici di altissimo livello.</li>
+            </ul>
+          </article>
+          <article class="benefit">
+            <b>03 · VALORE</b>
+            <h3>Ritorno misurabile</h3>
+            <p>Un investimento strategico che consolida la presenza sul mercato.</p>
+          </article>
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 7 di 8"><span>07</span><span>08</span></footer>
+    </section>
+
+    <!-- SLIDE 8: CONCLUSIONE -->
+    <section class="slide">
+      <header class="topbar">
+        <div class="brand"><div class="brand-logo">B</div>El Barrio <span>Caffè</span></div>
+      </header>
+      <div style="display: grid; gap: 20px; align-content: center;">
+        <div>
+          <p class="kicker">07 · Prospettive di Crescita</p>
+          <h2>Un progetto completo e collaudato, pronto per essere attivato.</h2>
+          <p class="lead">L'infrastruttura è interamente sviluppata e configurata. La soluzione ideale per consolidare l'autorevolezza del marchio e ottimizzare i flussi di lavoro quotidiani.</p>
+        </div>
+        <div class="benefits">
+          <article class="benefit">
+            <b>01 · IDENTITÀ</b>
+            <h3>Immagine curata</h3>
+            <p>Una rappresentazione digitale all'altezza dell'esperienza fisica in locale.</p>
+          </article>
+          <article class="benefit">
+            <b>02 · EFFICIENZA</b>
+            <h3>Strumenti agili</h3>
+            <p>Riduzione dei carichi operativi e maggiore focus sull'accoglienza.</p>
+          </article>
+          <article class="benefit">
+            <b>03 · OPERATIVITÀ</b>
+            <h3>Pronti al lancio</h3>
+            <p>Infrastruttura pronta all'uso per avviare subito la nuova fase digitale.</p>
+          </article>
+        </div>
+      </div>
+      <footer class="footbar" aria-label="Slide 8 di 8"><span>08</span><span>08</span></footer>
+    </section>
+
+    <script>
+      const frames = document.querySelectorAll("iframe");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const frame = entry.target;
+            if (!frame.src && frame.dataset.src) {
+              frame.src = frame.dataset.src;
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+
+      frames.forEach(frame => observer.observe(frame));
+    </script>
+  </body>
+</html>
